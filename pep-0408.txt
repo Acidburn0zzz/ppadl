@@ -7,10 +7,10 @@ Author: Nick Coghlan <ncoghlan@gmail.com>,
 Status: Rejected
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 2012-01-07
+Created: 07-Jan-2012
 Python-Version: 3.3
 Post-History: 2012-01-27
-Resolution: http://mail.python.org/pipermail/python-dev/2012-January/115962.html
+Resolution: https://mail.python.org/pipermail/python-dev/2012-January/115962.html
 
 
 Abstract
@@ -208,12 +208,12 @@ releases every 6 months (perhaps limited to standard library updates). If
 such a change to the release cycle is made, the following policy for the
 ``__preview__`` namespace is suggested:
 
-* For long term support releases, the ``__preview__`` namespace would always
+* For long-term support releases, the ``__preview__`` namespace would always
   be empty.
 * New modules would be accepted into the ``__preview__`` namespace only in
-  interim releases that immediately follow a long term support release.
+  interim releases that immediately follow a long-term support release.
 * All modules added will either be migrated to their final location in the
-  standard library or dropped entirely prior to the next long term support
+  standard library or dropped entirely prior to the next long-term support
   release.
 
 
@@ -291,12 +291,12 @@ References
 ==========
 
 .. [1] Discussed in this thread:
-       http://mail.python.org/pipermail/python-ideas/2012-January/013246.html
+       https://mail.python.org/pipermail/python-ideas/2012-January/013246.html
 
-.. [2] http://mail.python.org/pipermail/python-ideas/2011-August/011278.html
+.. [2] https://mail.python.org/pipermail/python-ideas/2011-August/011278.html
 
 .. [3] Guido's decision:
-       http://mail.python.org/pipermail/python-dev/2012-January/115962.html
+       https://mail.python.org/pipermail/python-dev/2012-January/115962.html
 
 .. [4] Proposal for inclusion of regex: http://bugs.python.org/issue2636
 

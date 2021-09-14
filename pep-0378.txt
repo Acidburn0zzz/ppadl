@@ -7,7 +7,7 @@ Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 12-Mar-2009
-Python-Version: 2.7 and 3.1
+Python-Version: 2.7, 3.1
 Post-History: 12-Mar-2009
 
 
@@ -99,7 +99,7 @@ Research into what Other Languages Do
 =====================================
 
 Scanning the web, I've found that thousands separators are
-usually one of COMMA, DOT, SPACE, APOSTROPHE or UNDERSCORE.  
+usually one of COMMA, DOT, SPACE, APOSTROPHE or UNDERSCORE.
 
 `C-Sharp`_ provides both styles (picture formatting and type specifiers).
 The type specifier approach is locale aware.  The picture formatting only
@@ -144,7 +144,7 @@ specifiers like::
 Java offers a `Decimal.Format Class`_ that uses picture patterns (one
 for positive numbers and an optional one for negatives) such as:
 ``"#,##0.00;(#,##0.00)"``. It allows arbitrary groupings including
-hundreds and ten-thousands and uneven groupings.  The special patten
+hundreds and ten-thousands and uneven groupings.  The special pattern
 characters are non-localized (using a DOT for a decimal separator and
 a COMMA for a grouping separator).  The user can supply an alternate
 set of symbols using the formatter's *DecimalFormatSymbols* object.
@@ -216,7 +216,7 @@ Commentary
   individual format strings makes it hard to change that convention
   later.  No workable alternative was suggested but the general idea
   is to set the convention once and have it apply everywhere (others
-  commented that locale already provides a way to do this).                                                              
+  commented that locale already provides a way to do this).
 
 * There are some precedents for grouping digits in the fractional
   part of a floating point number, but this PEP does not venture into
@@ -229,7 +229,7 @@ Commentary
   ten-thousands.  Eric Smith pointed-out that these are already
   handled by the "n" specifier in the locale module (albeit only
   for integers).  This PEP does not attempt to support all of those
-  possibilities.  It focues on a single, relatively common grouping
+  possibilities.  It focuses on a single, relatively common grouping
   convention that offers a quick way to improve readability in many
   (though not all) contexts.
 

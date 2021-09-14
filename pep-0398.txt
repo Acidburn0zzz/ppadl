@@ -3,7 +3,7 @@ Title: Python 3.3 Release Schedule
 Version: $Revision$
 Last-Modified: $Date$
 Author: Georg Brandl <georg@python.org>
-Status: Active
+Status: Final
 Type: Informational
 Content-Type: text/x-rst
 Created: 23-Mar-2011
@@ -25,7 +25,7 @@ items.
 Release Manager and Crew
 ========================
 
-- 3.3 Release Manager: Georg Brandl
+- 3.3 Release Managers: Georg Brandl, Ned Deily (3.3.7+)
 - Windows installers: Martin v. Löwis
 - Mac installers: Ronald Oussoren/Ned Deily
 - Documentation: Georg Brandl
@@ -39,6 +39,8 @@ approximately 18 months.  After the release of 3.4.0 final, a final
 3.3 bugfix update will be released.  After that, security updates
 (source only) will be released until 5 years after the release of 3.3
 final, which will be September 2017.
+
+As of 2017-09-29, Python 3.3.x reached end-of-life status.
 
 
 Release Schedule
@@ -104,15 +106,23 @@ security-fix only mode.
 3.3.6 schedule
 --------------
 
+Security fixes only
+
 - 3.3.6 candidate 1 (source-only release): October 4, 2014
 - 3.3.6 final (source-only release): October 11, 2014
 
 3.3.7 schedule
 --------------
 
-- 3.3.7 candidate 1 (source-only release): February 20, 2016
-- 3.3.7 final (source-only release): February 27, 2016
+Security fixes only
 
+- 3.3.7 candidate 1 (source-only release): September 6, 2017
+- 3.3.7 final (source-only release): September 19, 2017
+
+3.3.x end-of-life
+-----------------
+
+- September 29, 2017
 
 Features for 3.3
 ================

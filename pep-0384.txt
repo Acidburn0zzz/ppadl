@@ -30,7 +30,7 @@ of in-memory structures. For example, the way in which string interning
 works, or the data type used to represent the size of an object, have
 changed during the life of Python 2.x. As a consequence, extension
 modules making direct access to fields of strings, lists, or tuples,
-would break if their code is loaded into a newer version of the 
+would break if their code is loaded into a newer version of the
 interpreter without recompilation: offsets of other fields may have
 changed, making the extension modules access the wrong data.
 
@@ -64,14 +64,14 @@ Specification
 The ABI specification falls into two parts: an API specification,
 specifying what function (groups) are available for use with the
 ABI, and a linkage specification specifying what libraries to link
-with. The actual ABI (layout of structures in memory, function 
-calling conventions) is not specified, but implied by the 
+with. The actual ABI (layout of structures in memory, function
+calling conventions) is not specified, but implied by the
 compiler. As a recommendation, a specific ABI is recommended for
 selected platforms.
 
 During evolution of Python, new ABI functions will be added.
 Applications using them will then have a requirement on a minimum
-version of Python; this PEP provides no mechanism for such 
+version of Python; this PEP provides no mechanism for such
 applications to fall back when the Python library is too old.
 
 Terminology
@@ -142,10 +142,9 @@ are available::
 
   typedef struct{
     const char* name;
-    const char* doc;
     int basicsize;
     int itemsize;
-    int flags;
+    unsigned int flags;
     PyType_Slot *slots; /* terminated by slot==0. */
   } PyType_Spec;
 
@@ -211,13 +210,9 @@ of a Unicode string can convert it to wchar_t.
 Functions and function-like Macros
 ----------------------------------
 
-All functions starting with _Py are not available to applications
-(see exceptions below).
-Also, all functions that expect parameter types that are unavailable
-to applications are excluded from the ABI, such as PyAST_FromNode
-(which expects a ``node*``).
-
-All other functions are available, unless excluded below.
+By default, all functions are available, unless they are excluded
+below.
+Whether a function is documented or not does not matter.
 
 Function-like macros (in particular, field access macros) remain
 available to applications, but get replaced by function calls
@@ -232,11 +227,16 @@ redirect calls to the new function when the applications is
 recompiled.
 
 If continued provision of the old function is not possible, it may get
-deprecated, then removed, in accordance with PEP 7, causing
+deprecated, then removed, causing
 applications that use that function to break.
 
 Excluded Functions
 ------------------
+
+All functions starting with _Py are not available to applications.
+Also, all functions that expect parameter types that are unavailable
+to applications are excluded from the ABI, such as PyAST_FromNode
+(which expects a ``node*``).
 
 Functions declared in the following header files are not part
 of the ABI:
@@ -266,11 +266,9 @@ In addition, functions expecting ``FILE*`` are not part of
 the ABI, to avoid depending on a specific version of the
 Microsoft C runtime DLL on Windows.
 
-Module and type initalizer functions are not available
-(PyByteArray_Init, PyByteArray_Fini, PyBytes_Fini,
-PyCFunction_Fini, PyDict_Fini, PyFloat_ClearFreeList,
-PyFloat_Fini, PyFrame_Fini, PyList_Fini, PyMethod_Fini,
-PyOS_FiniInterrupts, PySet_Fini, PyTuple_Fini).
+Module and type initializer and finalizer functions are not available
+(PyByteArray_Init, PyOS_FiniInterrupts
+and all functions ending in _Fini or _ClearFreeList).
 
 Several functions dealing with interpreter implementation
 details are not available:

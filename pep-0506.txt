@@ -3,7 +3,7 @@ Title: Adding A Secrets Module To The Standard Library
 Version: $Revision$
 Last-Modified: $Date$
 Author: Steven D'Aprano <steve@pearwood.info>
-Status: Accepted
+Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 19-Sep-2015
@@ -314,7 +314,7 @@ Frequently Asked Questions
   state of MT [#]_ [#]_ and so predict all past and future values.  There
   are a number of known, practical attacks on systems using MT for
   randomness [#]_.
-  
+
 * Q: Attacks on PHP are one thing, but are there any known attacks on
   Python software?
 
@@ -352,19 +352,19 @@ Frequently Asked Questions
 * Q: What about a password generator?
 
   A: The consensus is that the requirements for password generators are too
-     variable for it to be a good match for the standard library [#]_. No
-     password generator will be included in the initial release of the
-     module, instead it will be given in the documentation as a recipe (à la
-     the recipes in the ``itertools`` module) [#]_.
+  variable for it to be a good match for the standard library [#]_. No password
+  generator will be included in the initial release of the module, instead it
+  will be given in the documentation as a recipe (à la the recipes in the
+  ``itertools`` module) [#]_.
 
 * Q: Will ``secrets`` use /dev/random (which blocks) or /dev/urandom (which
-     doesn't block) on Linux? What about other platforms?
+  doesn't block) on Linux? What about other platforms?
 
   A: ``secrets`` will be based on ``os.urandom`` and ``random.SystemRandom``,
-     which are interfaces to your operating system's best source of
-     cryptographic randomness. On Linux, that may be ``/dev/urandom`` [#]_,
-     on Windows it may be ``CryptGenRandom()``, but see the documentation
-     and/or source code for the detailed implementation details.
+  which are interfaces to your operating system's best source of cryptographic
+  randomness. On Linux, that may be ``/dev/urandom`` [#]_, on Windows it may be
+  ``CryptGenRandom()``, but see the documentation and/or source code for the
+  detailed implementation details.
 
 
 References

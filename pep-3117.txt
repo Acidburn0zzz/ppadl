@@ -91,7 +91,7 @@ Type                       Declarator
 ``frozenset``              ☃ (SNOWMAN)
 ``datetime``               ⌚ (WATCH)
 ``function``               ƛ (LATIN SMALL LETTER LAMBDA WITH STROKE)
-``generator``              ⚛ (ATOM SYMBOL) 
+``generator``              ⚛ (ATOM SYMBOL)
 ``Exception``              ⌁ (ELECTRIC ARROW)
 =========================  ===================================================
 
@@ -197,9 +197,9 @@ References
 ==========
 
 
-.. [EX1] http://mail.python.org/pipermail/python-list/2003-June/210588.html
+.. [EX1] https://mail.python.org/pipermail/python-list/2003-June/210588.html
 
-.. [EX2] http://mail.python.org/pipermail/python-list/2000-May/034685.html
+.. [EX2] https://mail.python.org/pipermail/python-list/2000-May/034685.html
 
 .. [EX3] http://groups.google.com/group/comp.lang.python/browse_frm/thread/6ae8c6add913635a/de40d4ffe9bd4304?lnk=gst&q=type+declarations&rnum=6
 
@@ -207,7 +207,7 @@ References
 
 .. [ZEN] http://www.python.org/dev/peps/pep-0020/
 
-.. [#] Well, it would, if there was a Perl 6. 
+.. [#] Well, it would, if there was a Perl 6.
 
 .. [#] Since the name ``TypeError`` is already in use, this name has been chosen
    for obvious reasons.

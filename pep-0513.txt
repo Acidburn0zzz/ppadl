@@ -5,11 +5,12 @@ Last-Modified: $Date$
 Author: Robert T. McGibbon <rmcgibbo@gmail.com>, Nathaniel J. Smith <njs@pobox.com>
 BDFL-Delegate: Nick Coghlan <ncoghlan@gmail.com>
 Discussions-To: Distutils SIG <distutils-sig@python.org>
-Status: Active
+Status: Superseded
 Type: Informational
 Content-Type: text/x-rst
 Created: 19-Jan-2016
 Post-History: 19-Jan-2016, 25-Jan-2016, 29-Jan-2016
+Superseded-By: 600
 Resolution: https://mail.python.org/pipermail/distutils-sig/2016-January/028211.html
 
 
@@ -136,11 +137,11 @@ included in the following list: ::
     libm.so.6
     libdl.so.2
     librt.so.1
-    libcrypt.so.1
     libc.so.6
     libnsl.so.1
     libutil.so.1
     libpthread.so.0
+    libresolv.so.2
     libX11.so.6
     libXext.so.6
     libXrender.so.1
@@ -153,6 +154,9 @@ included in the following list: ::
 
 and, (b) work on a stock CentOS 5.11 [6]_ system that contains the system
 package manager's provided versions of these libraries.
+
+``libcrypt.so.1`` was retrospectively removed from the whitelist after
+Fedora 30 was released with ``libcrypt.so.2`` instead.
 
 Because CentOS 5 is only available for x86_64 and i686 architectures,
 these are the only architectures currently supported by the ``manylinux1``

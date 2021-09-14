@@ -154,13 +154,13 @@ accidentally concatenated to the attribute's value::
 
    class C:
        x = "text" \
-	   "x's docstring"
+           "x's docstring"
 
 The trailing slash would cause the Python compiler to concatenate
 the attribute value and the docstring.
 
 A modern syntax highlighting editor would easily make this
-accident visible, though, and by simply inserting emtpy lines
+accident visible, though, and by simply inserting empty lines
 between the attribute definition and the docstring you can avoid
 the possible concatenation completely, so the problem is
 negligible.
@@ -191,7 +191,7 @@ Early comments on the PEP from Guido:
 
     2. I don't like the access method either (``__doc_<attrname>__``).
 
-The author's reply
+The author's reply:
 
     ::
 

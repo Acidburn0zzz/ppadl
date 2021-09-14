@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.9
 """Convert PEPs to (X)HTML - courtesy of /F
 
 Usage: %(PROGRAM)s [options] [<peps> ...]
@@ -50,6 +50,14 @@ try:
 except ImportError:
     from cgi import escape
 
+from docutils import core, nodes, utils
+from docutils.readers import standalone
+from docutils.transforms import peps, references, misc, frontmatter, Transform
+from docutils.parsers import rst
+
+class DataError(Exception):
+    pass
+
 REQUIRES = {'python': '2.6',
             'docutils': '0.2.7'}
 PROGRAM = sys.argv[0]
@@ -74,10 +82,10 @@ to templates.  DO NOT USE THIS HTML FILE AS YOUR TEMPLATE!
 DTD = ('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"\n'
        '                      "http://www.w3.org/TR/REC-html40/loose.dtd">')
 
-fixpat = re.compile("((https?|ftp):[-_a-zA-Z0-9/.+~:?#$=&,]+)|(pep-\d+(.txt|.rst)?)|"
-                    "(RFC[- ]?(?P<rfcnum>\d+))|"
-                    "(PEP\s+(?P<pepnum>\d+))|"
-                    ".")
+fixpat = re.compile(r"((https?|ftp):[-_a-zA-Z0-9/.+~:?#$=&,]+)|(pep-\d+(.txt|.rst)?)|"
+                    r"(RFC[- ]?(?P<rfcnum>\d+))|"
+                    r"(PEP\s+(?P<pepnum>\d+))|"
+                    r".")
 
 EMPTYSTRING = ''
 SPACE = ' '
@@ -107,7 +115,7 @@ def fixanchor(current, match):
         ltext = list(text)
         while ltext:
             c = ltext.pop()
-            if c not in '();:,.?\'"<>':
+            if c not in '''();:,.?'"<>''':
                 ltext.append(c)
                 break
         link = EMPTYSTRING.join(ltext)
@@ -211,9 +219,10 @@ def fixfile(inpath, input_lines, outfile):
     print('</td></tr></table>', file=outfile)
     print('<div class="header">\n<table border="0">', file=outfile)
     for k, v in header:
-        if k.lower() in ('author', 'bdfl-delegate', 'discussions-to'):
+        if k.lower() in ('author', 'pep-delegate', 'bdfl-delegate', 'discussions-to',
+                         'sponsor'):
             mailtos = []
-            for part in re.split(',\s*', v):
+            for part in re.split(r',\s*', v):
                 if '@' in part:
                     realname, addr = parseaddr(part)
                     if k.lower() == 'discussions-to':
@@ -227,9 +236,9 @@ def fixfile(inpath, input_lines, outfile):
                 else:
                     mailtos.append(part)
             v = COMMASPACE.join(mailtos)
-        elif k.lower() in ('replaces', 'replaced-by', 'requires'):
+        elif k.lower() in ('replaces', 'superseded-by', 'requires'):
             otherpeps = ''
-            for otherpep in re.split(',?\s+', v):
+            for otherpep in re.split(r',?\s+', v):
                 otherpep = int(otherpep)
                 otherpeps += '<a href="pep-%04d.html">%i</a> ' % (otherpep,
                                                                   otherpep)
@@ -288,7 +297,7 @@ def fixfile(inpath, input_lines, outfile):
                     print(re.sub(
                         parts[1],
                         '<a href="%s">%s</a>' % (url, parts[1]),
-                        line, 1), end=' ', file=outfile)
+                        line, 1), end='', file=outfile)
                     continue
                 elif parts and '@' in parts[-1]:
                     # This is a pep email address line, so filter it.
@@ -297,7 +306,7 @@ def fixfile(inpath, input_lines, outfile):
                         print('<pre>', file=outfile)
                         need_pre = 0
                     print(re.sub(
-                        parts[-1], url, line, 1), end=' ', file=outfile)
+                        parts[-1], url, line, 1), end='', file=outfile)
                     continue
             line = fixpat.sub(lambda x, c=inpath: fixanchor(c, x), line)
             if need_pre:
@@ -315,15 +324,155 @@ docutils_settings = None
 """Runtime settings object used by Docutils.  Can be set by the client
 application when this module is imported."""
 
+class PEPHeaders(Transform):
+
+    """
+    Process fields in a PEP's initial RFC-2822 header.
+    """
+
+    default_priority = 360
+
+    pep_url = 'pep-%04d'
+    pep_cvs_url = PEPCVSURL
+    rcs_keyword_substitutions = (
+          (re.compile(r'\$' r'RCSfile: (.+),v \$$', re.IGNORECASE), r'\1'),
+          (re.compile(r'\$[a-zA-Z]+: (.+) \$$'), r'\1'),)
+
+    def apply(self):
+        if not len(self.document):
+            # @@@ replace these DataErrors with proper system messages
+            raise DataError('Document tree is empty.')
+        header = self.document[0]
+        if not isinstance(header, nodes.field_list) or \
+              'rfc2822' not in header['classes']:
+            raise DataError('Document does not begin with an RFC-2822 '
+                            'header; it is not a PEP.')
+        pep = None
+        for field in header:
+            if field[0].astext().lower() == 'pep': # should be the first field
+                value = field[1].astext()
+                try:
+                    pep = int(value)
+                    cvs_url = self.pep_cvs_url % pep
+                except ValueError:
+                    pep = value
+                    cvs_url = None
+                    msg = self.document.reporter.warning(
+                        '"PEP" header must contain an integer; "%s" is an '
+                        'invalid value.' % pep, base_node=field)
+                    msgid = self.document.set_id(msg)
+                    prb = nodes.problematic(value, value or '(none)',
+                                            refid=msgid)
+                    prbid = self.document.set_id(prb)
+                    msg.add_backref(prbid)
+                    if len(field[1]):
+                        field[1][0][:] = [prb]
+                    else:
+                        field[1] += nodes.paragraph('', '', prb)
+                break
+        if pep is None:
+            raise DataError('Document does not contain an RFC-2822 "PEP" '
+                            'header.')
+        if pep == 0:
+            # Special processing for PEP 0.
+            pending = nodes.pending(peps.PEPZero)
+            self.document.insert(1, pending)
+            self.document.note_pending(pending)
+        if len(header) < 2 or header[1][0].astext().lower() != 'title':
+            raise DataError('No title!')
+        for field in header:
+            name = field[0].astext().lower()
+            body = field[1]
+            if len(body) > 1:
+                raise DataError('PEP header field body contains multiple '
+                                'elements:\n%s' % field.pformat(level=1))
+            elif len(body) == 1:
+                if not isinstance(body[0], nodes.paragraph):
+                    raise DataError('PEP header field body may only contain '
+                                    'a single paragraph:\n%s'
+                                    % field.pformat(level=1))
+            elif name == 'last-modified':
+                date = time.strftime(
+                      '%d-%b-%Y',
+                      time.localtime(os.stat(self.document['source'])[8]))
+                if cvs_url:
+                    body += nodes.paragraph(
+                        '', '', nodes.reference('', date, refuri=cvs_url))
+            else:
+                # empty
+                continue
+            para = body[0]
+            if name in ('author', 'bdfl-delegate', 'pep-delegate', 'sponsor'):
+                for node in para:
+                    if isinstance(node, nodes.reference):
+                        node.replace_self(peps.mask_email(node))
+            elif name == 'discussions-to':
+                for node in para:
+                    if isinstance(node, nodes.reference):
+                        node.replace_self(peps.mask_email(node, pep))
+            elif name in ('replaces', 'superseded-by', 'requires'):
+                newbody = []
+                space = nodes.Text(' ')
+                for refpep in re.split(r',?\s+', body.astext()):
+                    pepno = int(refpep)
+                    newbody.append(nodes.reference(
+                        refpep, refpep,
+                        refuri=(self.document.settings.pep_base_url
+                                + self.pep_url % pepno)))
+                    newbody.append(space)
+                para[:] = newbody[:-1] # drop trailing space
+            elif name == 'last-modified':
+                utils.clean_rcs_keywords(para, self.rcs_keyword_substitutions)
+                if cvs_url:
+                    date = para.astext()
+                    para[:] = [nodes.reference('', date, refuri=cvs_url)]
+            elif name == 'content-type':
+                pep_type = para.astext()
+                uri = self.document.settings.pep_base_url + self.pep_url % 12
+                para[:] = [nodes.reference('', pep_type, refuri=uri)]
+            elif name == 'version' and len(body):
+                utils.clean_rcs_keywords(para, self.rcs_keyword_substitutions)
+
+class PEPReader(standalone.Reader):
+
+    supported = ('pep',)
+    """Contexts this reader supports."""
+
+    settings_spec = (
+        'PEP Reader Option Defaults',
+        'The --pep-references and --rfc-references options (for the '
+        'reStructuredText parser) are on by default.',
+        ())
+
+    config_section = 'pep reader'
+    config_section_dependencies = ('readers', 'standalone reader')
+
+    def get_transforms(self):
+        transforms = standalone.Reader.get_transforms(self)
+        # We have PEP-specific frontmatter handling.
+        transforms.remove(frontmatter.DocTitle)
+        transforms.remove(frontmatter.SectionSubTitle)
+        transforms.remove(frontmatter.DocInfo)
+        transforms.extend([PEPHeaders, peps.Contents, peps.TargetNotes])
+        return transforms
+
+    settings_default_overrides = {'pep_references': 1, 'rfc_references': 1}
+
+    inliner_class = rst.states.Inliner
+
+    def __init__(self, parser=None, parser_name=None):
+        """`parser` should be ``None``."""
+        if parser is None:
+            parser = rst.Parser(rfc2822=True, inliner=self.inliner_class())
+        standalone.Reader.__init__(self, parser, '')
+
+
 def fix_rst_pep(inpath, input_lines, outfile):
-    from docutils import core
-    from docutils.transforms.peps import Headers
-    Headers.pep_cvs_url = PEPCVSURL
     output = core.publish_string(
         source=''.join(input_lines),
         source_path=inpath,
         destination_path=outfile.name,
-        reader_name='pep',
+        reader=PEPReader(),
         parser_name='restructuredtext',
         writer_name='pep_html',
         settings=docutils_settings,

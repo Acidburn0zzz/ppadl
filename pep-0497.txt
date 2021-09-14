@@ -2,11 +2,19 @@ PEP: 497
 Title: A standard mechanism for backward compatibility
 Version: $Revision$
 Last-Modified: $Date$
-Author:	Ed Schofield <ed at pythoncharmers.com>
-Status:	Draft
+Author: Ed Schofield <ed at pythoncharmers.com>
+BDFL-Delegate: Brett Cannon (on behalf of the steering council)
+Status: Rejected
 Type: Process
 Content-Type: text/x-rst
 Created: 04-Aug-2015
+
+
+Rejection Notice
+================
+The steering council decided that the `__past__` aspect of this proposal
+was too complicated for the potential benefit. The other aspect of stronger
+requirements for backwards-compatibility should be addressed by PEP 387.
 
 
 Scope
@@ -250,7 +258,7 @@ bandwidth to implement / maintain the additional complexity!
 A2: Python-dev can ask the community of developers to step up and
 maintain backward compatibility in Python for legacy language features
 they care about. When the community stops caring about a particular
-obsolete behaviour, Python-dev can stop caring too. 
+obsolete behaviour, Python-dev can stop caring too.
 
 The ``__past__`` mechanism could possibly be designed to be extensible
 by the community, e.g.  as a standard but "blessed" PyPI package, to

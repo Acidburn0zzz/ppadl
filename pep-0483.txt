@@ -4,12 +4,12 @@ Version: $Revision$
 Last-Modified: $Date$
 Author: Guido van Rossum <guido@python.org>, Ivan Levkivskyi <levkivskyi@gmail.com>
 Discussions-To: Python-Ideas <python-ideas@python.org>
-Status: Draft
+Status: Final
 Type: Informational
 Content-Type: text/x-rst
 Created: 19-Dec-2014
 Post-History:
-Resolution:
+
 
 Abstract
 ========
@@ -271,7 +271,7 @@ between classes and types the following general rules apply:
 -  No types defined below can be subclassed, except for ``Generic`` and
    classes derived from it.
 -  All of these will raise ``TypeError`` if they appear
-   in ``isinstance`` or ``issubclass`` (except for unparametrized generics).
+   in ``isinstance`` or ``issubclass`` (except for unparameterized generics).
 
 
 Fundamental building blocks
@@ -372,7 +372,7 @@ generic manner. Consider two examples:
     examples[2] = None                   # rejected by the type checker
 
 - The following function can take two arguments of type ``int`` and return
-  an ``int``, of take two arguments of type ``float`` and return
+  an ``int``, or take two arguments of type ``float`` and return
   a ``float``, etc.::
 
     def add(x, y):
@@ -737,11 +737,6 @@ are still controversial or not fully specified.)
 
     class MyComparable:
         def compare(self, other: 'MyComparable') -> int: ...
-
-- If a default of ``None`` is specified, the type is implicitly
-  ``Optional``, e.g.::
-
-    def get(key: KT, default: VT = None) -> VT: ...
 
 - Type variables can be declared in unconstrained, constrained,
   or bounded form. The variance of a generic type can also

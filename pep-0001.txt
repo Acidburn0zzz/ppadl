@@ -1,7 +1,5 @@
 PEP: 1
 Title: PEP Purpose and Guidelines
-Version: $Revision$
-Last-Modified: $Date$
 Author: Barry Warsaw, Jeremy Hylton, David Goodger, Nick Coghlan
 Status: Active
 Type: Process
@@ -29,6 +27,19 @@ documenting dissenting opinions.
 Because the PEPs are maintained as text files in a versioned
 repository, their revision history is the historical record of the
 feature proposal [1]_.
+
+
+PEP Audience
+============
+
+The typical primary audience for PEPs are the core developers of the CPython
+reference interpreter and their elected Steering Council, as well as developers
+of other implementations of the Python language specification.
+
+However, other parts of the Python community may also choose to use the process
+(particularly for Informational PEPs) to document expected API conventions and
+to manage complex design coordination problems that require collaboration across
+multiple projects.
 
 
 PEP Types
@@ -64,14 +75,31 @@ There are three kinds of PEP:
 PEP Workflow
 ============
 
+Python's Steering Council
+-------------------------
+
+There are several references in this PEP to the "Steering Council" or "Council".
+This refers to the current members of the elected Steering Council described
+in PEP 13 [5]_, in their role as the final authorities on whether or not PEPs
+will be accepted or rejected.
+
+
+Python's Core Developers
+------------------------
+
+There are several references in this PEP to "core developers". This refers to
+the currently active Python core team members described in PEP 13 [5]_.
+
 
 Python's BDFL
 -------------
 
-There are several references in this PEP to the "BDFL". This acronym stands
-for "Benevolent Dictator for Life" and refers to Guido van Rossum, the
-original creator of, and the final design authority for, the Python
-programming language.
+Previous versions of this PEP used the title "BDFL-Delegate" for PEP decision
+makers. This was a historical reference to Python's previous governance model,
+where all design authority ultimately derived from Guido van Rossum, the
+original creator of the Python programming language. By contrast, the Steering
+Council's design authority derives from their election by the currently active
+core developers. Now, PEP-Delegate is used in place of BDFL-Delegate.
 
 
 PEP Editors
@@ -80,22 +108,12 @@ PEP Editors
 The PEP editors are individuals responsible for managing the administrative
 and editorial aspects of the PEP workflow (e.g. assigning PEP numbers and
 changing their status).  See `PEP Editor Responsibilities & Workflow`_ for
-details.  The current editors are:
-
-* Chris Angelico
-* Anthony Baxter
-* Georg Brandl
-* Brett Cannon
-* David Goodger
-* Jesse Noller
-* Berker Peksag
-* Guido van Rossum
-* Barry Warsaw
+details.
 
 PEP editorship is by invitation of the current editors, and they can be
-contacted via the address <peps@python.org>, but you may only need to use this
-to contact the editors semi-privately.  All of the PEP workflow can be
-conducted via the GitHub `PEP repository`_ issues and pull requests.
+contacted by mentioning ``@python/pep-editors`` on GitHub.  All of the PEP
+workflow can be conducted via the GitHub `PEP repository`_ issues and pull
+requests.
 
 
 Start with an idea for Python
@@ -139,39 +157,86 @@ initial concerns about the proposal.
 Submitting a PEP
 ----------------
 
-Following a discussion on python-ideas, the proposal should be submitted as a
-draft PEP via a `GitHub pull request`_.  The draft must be written in PEP
-style as described below, else it will fail review immediately (although minor
-errors may be corrected by the editors).
+Following a discussion on python-ideas, the workflow varies based on whether
+any of the PEP's co-authors are core developers. If one or more of the PEP's
+co-authors are core developers, they are responsible for following the process
+outlined below. Otherwise (i.e. none of the co-authors are core developers),
+then the PEP author(s) will need to find a sponsor for the PEP.
+
+Ideally, a core developer sponsor is identified, but non-core sponsors may also
+be selected with the approval of the Steering Council.  The sponsor's job is to
+provide guidance to the PEP author to help them through the logistics of the
+PEP process (somewhat acting like a mentor).  Being a sponsor does **not**
+disqualify that person from becoming a co-author or PEP-Delegate later on (but
+not both).  The sponsor of a PEP is recorded in the "Sponsor:" field of the
+header.
+
+Once the sponsor or the core developer(s) co-authoring the PEP deem the PEP
+ready for submission, the proposal should be submitted as a draft PEP via a
+`GitHub pull request`_.  The draft must be written in PEP style as described
+below, else it will fail review immediately (although minor errors may be
+corrected by the editors).
 
 The standard PEP workflow is:
 
 * You, the PEP author, fork the `PEP repository`_, and create a file named
-  ``pep-0xxx.rst`` that contains your new PEP.  Use "XXX" as your draft PEP
+  ``pep-9999.rst`` that contains your new PEP.  Use "9999" as your draft PEP
   number.
+
+* In the "Type:" header field, enter "Standards Track",
+  "Informational", or "Process" as appropriate, and for the "Status:"
+  field enter "Draft".  For full details, see `PEP Header Preamble`_.
+
+* Update `.github/CODEOWNERS` [7]_ such that any core developer co-author(s) or
+  sponsor are listed for your new file such that any future pull requests will
+  be assigned to them.
+
 * Push this to your GitHub fork and submit a pull request.
-* The PEP editors review your PR for structure, formatting, and other errors.
-* Once approved, they will assign your PEP a number, and label it as Standards
-  Track, Informational, or Process, and give it the status "Draft"
+
+* The PEP editors review your PR for structure, formatting, and other
+  errors.  For a reST-formatted PEP, PEP 12 is provided as a template.
+  It also provides a complete introduction to reST markup that is used
+  in PEPs.  Approval criteria are:
+
+  * It sound and complete.  The ideas must make technical sense.  The
+    editors do not consider whether they seem likely to be accepted.
+  * The title accurately describes the content.
+  * The PEP's language (spelling, grammar, sentence structure, etc.)
+    and code style (examples should match PEP 8 & PEP 7) should be
+    correct and conformant.  The PEP will be checked for formatting
+    (plain text or reStructuredText) by Travis CI, and will not be
+    approved until this passes.
+
+  Editors are generally quite lenient about this initial review,
+  expecting that problems will be corrected by the reviewing process.
+  **Note:** Approval of the PEP is no guarantee that there are no
+  embarrassing mistakes!  Correctness is the responsibility of authors
+  and reviewers, not the editors.
+
+  If the PEP isn't ready for approval, an editor will send it back to
+  the author for revision, with specific instructions.
+
+* Once approved, they will assign your PEP a number.
 
 Once the review process is complete, and the PEP editors approve it (note that
 this is *not* the same as accepting your PEP!), they will squash commit your
 pull request onto master.
 
-The PEP editors will not unreasonably deny a PEP.  Reasons for denying PEP
-status include duplication of effort, being technically unsound, not providing
-proper motivation or addressing backwards compatibility, or not in keeping
-with the Python philosophy.  The BDFL can be consulted during the approval
-phase, and is the final arbiter of the draft's PEP-ability.
+The PEP editors will not unreasonably deny publication of a PEP.  Reasons for
+denying PEP status include duplication of effort, being technically unsound,
+not providing proper motivation or addressing backwards compatibility, or not
+in keeping with the Python philosophy.  The Steering Council can be consulted
+during the approval phase, and are the final arbiter of a draft's PEP-ability.
 
 Developers with git push privileges for the `PEP repository`_ may claim PEP
 numbers directly by creating and committing a new PEP. When doing so, the
 developer must handle the tasks that would normally be taken care of by the
 PEP editors (see `PEP Editor Responsibilities & Workflow`_). This includes
 ensuring the initial version meets the expected standards for submitting a
-PEP. Alternately, even developers may choose to submit PEPs via pull request.
-When doing so, let the PEP editors know you have git push privileges and they
-can guide you through the process of updating the PEP repository directly.
+PEP.  Alternately, even developers should submit PEPs via pull request.
+When doing so, you are generally expected to handle the process yourself;
+if you need assistance from PEP editors, mention ``@python/pep-editors``
+on GitHub.
 
 As updates are necessary, the PEP author can check in new versions if they
 (or a collaborating developer) have git push privileges.
@@ -202,53 +267,94 @@ PEP Review & Resolution
 -----------------------
 
 Once the authors have completed a PEP, they may request a review for
-style and consistency from the PEP editors.  However, the content and
-final acceptance of the PEP must be requested of the BDFL, usually via
-an email to the python-dev mailing list.  PEPs are reviewed by the
-BDFL and his chosen consultants, who may accept or reject a PEP or
-send it back to the author(s) for revision.  For a PEP that is
-predetermined to be acceptable (e.g., it is an obvious win as-is
-and/or its implementation has already been checked in) the BDFL may
-also initiate a PEP review, first notifying the PEP author(s) and
-giving them a chance to make revisions.
+style and consistency from the PEP editors.
 
-The final authority for PEP approval is the BDFL. However, whenever a new
-PEP is put forward, any core developer that believes they are suitably
+However, content review and final acceptance of the PEP must be requested of the
+core developers, usually via an email to the python-dev mailing list.
+
+To expedite the process in selected cases (e.g. when a change is clearly
+beneficial and ready to be accepted, but the PEP hasn't been formally submitted
+for review yet), the Steering Council may also initiate a PEP review, first
+notifying the PEP author(s) and giving them a chance to make revisions.
+
+The final authority for PEP approval is the Steering Council. However, whenever
+a new PEP is put forward, any core developer that believes they are suitably
 experienced to make the final decision on that PEP may offer to serve as
-the BDFL's delegate (or "PEP czar") for that PEP. If their self-nomination
-is accepted by the other core developers and the BDFL, then they will have
-the authority to approve (or reject) that PEP. This process happens most
-frequently with PEPs where the BDFL has granted in principle approval for
-*something* to be done, but there are details that need to be worked out
-before the PEP can be accepted.
+the PEP-Delegate for that PEP, and they will then have the authority to approve
+(or reject) that PEP. Individuals taking on this responsibility are free to seek
+additional guidance from the Steering Council at any time, and are also expected
+to take the advice and perspectives of other core developers into account.
 
-If the final decision on a PEP is to be made by a delegate rather than
-directly by the BDFL, this will be recorded by including the
-"BDFL-Delegate" header in the PEP.
+The designated decision maker for each PEP is recorded in the "PEP-Delegate"
+header in the PEP.
 
-PEP review and resolution may also occur on a list other than python-dev
-(for example, distutils-sig for packaging related PEPs that don't
-immediately affect the standard library). In this case, the "Discussions-To"
-heading in the PEP will identify the appropriate alternative list where
-discussion, review and pronouncement on the PEP will occur.
+Such self-nominations are accepted by default, but may be explicitly declined by
+the Steering Council. Possible reasons for the Steering Council declining a
+self-nomination as PEP-Delegate include, but are not limited to, perceptions of
+a potential conflict of interest (e.g. working for the same organisation as the
+PEP submitter), or simply considering another potential PEP-Delegate to be
+more appropriate. If core developers (or other community members) have concerns
+regarding the suitability of a PEP-Delegate for any given PEP, they may ask
+the Steering Council to review the delegation.
+
+If no volunteer steps forward, then the Steering Council will approach core
+developers (and potentially other Python community members) with relevant
+expertise, in an attempt to identify a candidate that is willing to serve as
+PEP-Delegate for that PEP. If no suitable candidate can be found, then the
+PEP will be marked as Deferred until one is available.
+
+Previously appointed PEP-Delegates may choose to step down, or be asked to step
+down by the Council, in which case a new PEP-Delegate will be appointed in the
+same manner as for a new PEP (including deferral of the PEP if no suitable
+replacement can be found). In the event that a PEP-Delegate is asked to step
+down, this will overrule any prior acceptance or rejection of the PEP, and it
+will revert to Draft status.
+
+With the approval of the Steering Council, PEP review and resolution may also
+occur on a list other than python-dev (for example, distutils-sig for packaging
+related PEPs that don't immediately affect the standard library). In these
+cases, the "Discussions-To" heading in the PEP will identify the appropriate
+alternative list where discussion, review and pronouncement on the PEP will
+occur.
+
+When such standing delegations are put in place, the Steering Council will
+maintain sufficient public records to allow subsequent Councils, the core
+developers, and the wider Python community to understand the delegations that
+currently exist, why they were put in place, and the circumstances under which
+they may no longer be needed.
 
 For a PEP to be accepted it must meet certain minimum criteria.  It
 must be a clear and complete description of the proposed enhancement.
 The enhancement must represent a net improvement.  The proposed
 implementation, if applicable, must be solid and must not complicate
 the interpreter unduly.  Finally, a proposed enhancement must be
-"pythonic" in order to be accepted by the BDFL.  (However, "pythonic"
-is an imprecise term; it may be defined as whatever is acceptable to
-the BDFL.  This logic is intentionally circular.)  See PEP 2 [2]_ for
-standard library module acceptance criteria.
+"pythonic" in order to be accepted by the Steering Council.  (However,
+"pythonic" is an imprecise term; it may be defined as whatever is acceptable to
+the Steering Council.  This logic is intentionally circular.)  See PEP 2 [2]_
+for standard library module acceptance criteria.
 
 Once a PEP has been accepted, the reference implementation must be
 completed.  When the reference implementation is complete and incorporated
 into the main source code repository, the status will be changed to "Final".
 
-A PEP can also be assigned status "Deferred".  The PEP author or an
+To allow gathering of additional design and interface feedback before committing
+to long term stability for a language feature or standard library API, a PEP
+may also be marked as "Provisional". This is short for "Provisionally Accepted",
+and indicates that the proposal has been accepted for inclusion in the reference
+implementation, but additional user feedback is needed before the full design
+can be considered "Final". Unlike regular accepted PEPs, provisionally accepted
+PEPs may still be Rejected or Withdrawn *even after the related changes have
+been included in a Python release*.
+
+Wherever possible, it is considered preferable to reduce the scope of a proposal
+to avoid the need to rely on the "Provisional" status (e.g. by deferring some
+features to later PEPs), as this status can lead to version compatibility
+challenges in the wider Python ecosystem. PEP 411 provides additional details
+on potential use cases for the Provisional status.
+
+A PEP can also be assigned the status "Deferred".  The PEP author or an
 editor can assign the PEP this status when no progress is being made
-on the PEP.  Once a PEP is deferred, a PEP editor can re-assign it
+on the PEP.  Once a PEP is deferred, a PEP editor can reassign it
 to draft status.
 
 A PEP can also be "Rejected".  Perhaps after all is said and done it
@@ -268,7 +374,17 @@ an API can replace version 1.
 
 The possible paths of the status of PEPs are as follows:
 
-.. image:: pep-0001-1.png
+.. image:: pep-0001-process_flow.png
+   :alt: PEP process flow diagram
+
+While not shown in the diagram, "Accepted" PEPs may technically move to
+"Rejected" or "Withdrawn" even after acceptance. This will only occur if
+the implementation process reveals fundamental flaws in the design that were
+not noticed prior to acceptance of the PEP. Unlike Provisional PEPs, these
+transitions are only permitted if the accepted proposal has *not* been included
+in a Python release - released changes must instead go through the regular
+deprecation process (which may require a new PEP providing the rationale for
+the deprecation).
 
 Some Informational and Process PEPs may also have a status of "Active"
 if they are never meant to be completed.  E.g. PEP 1 (this PEP).
@@ -282,6 +398,11 @@ reached the Final state. Once a PEP has been completed, the Language and
 Standard Library References become the formal documentation of the expected
 behavior.
 
+If changes based on implementation experience and user feedback are made to
+Standards track PEPs while in the Accepted or Provisional State, those changes
+should be noted in the PEP, such that the PEP accurately describes the state of
+the implementation at the point where it is marked Final.
+
 Informational and Process PEPs may be updated over time to reflect changes
 to development practices and other details. The precise process followed in
 these cases will depend on the nature and purpose of the PEP being updated.
@@ -291,7 +412,7 @@ these cases will depend on the nature and purpose of the PEP being updated.
 What belongs in a successful PEP?
 =================================
 
-Each PEP should have the following parts:
+Each PEP should have the following parts/sections:
 
 1. Preamble -- RFC 822 style headers containing meta-data about the
    PEP, including the PEP number, a short descriptive title (limited
@@ -301,40 +422,50 @@ Each PEP should have the following parts:
 2. Abstract -- a short (~200 word) description of the technical issue
    being addressed.
 
-3. Copyright/public domain -- Each PEP must either be explicitly
-   labeled as placed in the public domain (see this PEP as an
-   example) or licensed under the `Open Publication License`_.
+3. Motivation -- The motivation is critical for PEPs that want to
+   change the Python language, library, or ecosystem.  It should
+   clearly explain why the existing language specification is
+   inadequate to address the problem that the PEP solves.  This can
+   include collecting documented support for the PEP from important
+   projects in the Python ecosystem.  PEP submissions without
+   sufficient motivation may be rejected.
 
-4. Specification -- The technical specification should describe the
-   syntax and semantics of any new language feature.  The
-   specification should be detailed enough to allow competing,
-   interoperable implementations for at least the current major Python
-   platforms (CPython, Jython, IronPython, PyPy).
-
-5. Motivation -- The motivation is critical for PEPs that want to
-   change the Python language.  It should clearly explain why the
-   existing language specification is inadequate to address the
-   problem that the PEP solves.  PEP submissions without sufficient
-   motivation may be rejected outright.
-
-6. Rationale -- The rationale fleshes out the specification by
-   describing what motivated the design and why particular design
-   decisions were made.  It should describe alternate designs that
-   were considered and related work, e.g. how the feature is supported
-   in other languages.
+4. Rationale -- The rationale fleshes out the specification by
+   describing why particular design decisions were made.  It should
+   describe alternate designs that were considered and related work,
+   e.g. how the feature is supported in other languages.
 
    The rationale should provide evidence of consensus within the
    community and discuss important objections or concerns raised
    during discussion.
 
-7. Backwards Compatibility -- All PEPs that introduce backwards
+5. Specification -- The technical specification should describe the
+   syntax and semantics of any new language feature.  The
+   specification should be detailed enough to allow competing,
+   interoperable implementations for at least the current major Python
+   platforms (CPython, Jython, IronPython, PyPy).
+
+6. Backwards Compatibility -- All PEPs that introduce backwards
    incompatibilities must include a section describing these
    incompatibilities and their severity.  The PEP must explain how the
    author proposes to deal with these incompatibilities.  PEP
    submissions without a sufficient backwards compatibility treatise
    may be rejected outright.
 
-8. Reference Implementation -- The reference implementation must be
+7. Security Implications -- If there are security concerns in relation
+   to the PEP, those concerns should be explicitly written out to make
+   sure reviewers of the PEP are aware of them.
+
+8. How to Teach This -- For a PEP that adds new functionality or changes
+   language behavior, it is helpful to include a section on how to
+   teach users, new and experienced, how to apply the PEP to their
+   work.
+
+   This section may include key points and recommended documentation
+   changes that would help users adopt a new feature or migrate their
+   code to use a language change.
+
+9. Reference Implementation -- The reference implementation must be
    completed before any PEP is given status "Final", but it need not
    be completed before the PEP is accepted.  While there is merit
    to the approach of reaching consensus on the specification and
@@ -346,6 +477,29 @@ Each PEP should have the following parts:
    appropriate for either the Python language reference or the
    standard library reference.
 
+10. Rejected Ideas -- Throughout the discussion of a PEP, various ideas
+    will be proposed which are not accepted. Those rejected ideas should
+    be recorded along with the reasoning as to why they were rejected.
+    This both helps record the thought process behind the final version
+    of the PEP as well as preventing people from bringing up the same
+    rejected idea again in subsequent discussions.
+
+    In a way this section can be thought of as a breakout section of the
+    Rationale section that is focused specifically on why certain ideas
+    were not ultimately pursued.
+
+11. Open Issues -- While a PEP is in draft, ideas can come up which
+    warrant further discussion. Those ideas should be recorded so people
+    know that they are being thought about but do not have a concrete
+    resolution. This helps make sure all issues required for the PEP to be
+    ready for consideration are complete and reduces people duplicating
+    prior discussion.
+
+12. References -- A collection of URLs used as references through the PEP.
+
+13. Copyright/license -- Each new PEP must be placed under a dual license of
+    public domain and CC0-1.0-Universal_ (see this PEP for an example).
+
 
 PEP Formats and Templates
 =========================
@@ -355,10 +509,8 @@ ReStructuredText_ allows for rich markup that is still quite easy to
 read, but also results in good-looking and functional HTML. PEP 12
 contains instructions and a template [4]_ for reStructuredText PEPs.
 
-A Python script automatically converts PEPs to HTML for viewing on
-the web [5]_.  The conversion of reStructuredText PEPs is handled by
-the Docutils_ module; the same script also renders a legacy plain-text
-format of PEP internally, to support pre-reST documents.
+The PEP text files are automatically converted to HTML [6]_ for easier
+`online reading <https://www.python.org/dev/peps/>`__.
 
 
 PEP Header Preamble
@@ -370,19 +522,18 @@ optional and are described below.  All other headers are required. ::
 
     PEP: <pep number>
     Title: <pep title>
-    Version: <version string>
-    Last-Modified: <date string>
     Author: <list of authors' real names and optionally, email addrs>
-  * BDFL-Delegate: <PEP czar's real name>
+  * Sponsor: <real name of sponsor>
+  * PEP-Delegate: <PEP delegate's real name>
   * Discussions-To: <email address>
-    Status: <Draft | Active | Accepted | Deferred | Rejected |
+    Status: <Draft | Active | Accepted | Provisional | Deferred | Rejected |
              Withdrawn | Final | Superseded>
     Type: <Standards Track | Informational | Process>
   * Content-Type: <text/x-rst | text/plain>
   * Requires: <pep numbers>
     Created: <date created on, in dd-mmm-yyyy format>
   * Python-Version: <version number>
-    Post-History: <dates of postings to python-list and python-dev>
+    Post-History: <dates of postings to python-ideas and/or python-dev>
   * Replaces: <pep number>
   * Superseded-By: <pep number>
   * Resolution: <url>
@@ -407,10 +558,15 @@ following RFC 2822 continuation line conventions.  Note that personal
 email addresses in PEPs will be obscured as a defense against spam
 harvesters.
 
-The BDFL-Delegate field is used to record cases where the final decision to
-approve or reject a PEP rests with someone other than the BDFL. (The
-delegate's email address is currently omitted due to a limitation in the
-email address masking for reStructuredText PEPs)
+The Sponsor field records which developer (core, or otherwise approved by the
+Steering Council) is sponsoring the PEP.  If one of the authors of the PEP is a
+core developer then no sponsor is necessary and thus this field should be left
+out.
+
+The PEP-Delegate field is used to record the individual appointed by the
+Steering Council to make the final decision on whether or not to approve or
+reject a PEP. (The delegate's email address is currently omitted due to a
+limitation in the email address masking for reStructuredText PEPs)
 
 *Note: The Resolution header is required for Standards Track PEPs
 only.  It contains a URL that should point to an email message or
@@ -437,15 +593,15 @@ Content-Type header is present.
 
 The Created header records the date that the PEP was assigned a
 number, while Post-History is used to record the dates of when new
-versions of the PEP are posted to python-list and/or python-dev.  Both
+versions of the PEP are posted to python-ideas and/or python-dev.  Both
 headers should be in dd-mmm-yyyy format, e.g. 14-Aug-2001.
 
 Standards Track PEPs will typically have a Python-Version header which
 indicates the version of Python that the feature will be released with.
 Standards Track PEPs without a Python-Version header indicate
 interoperability standards that will initially be supported through
-external libraries and tools, and then supplemented by a later PEP to
-add support to the standard library. Informational and Process PEPs do
+external libraries and tools, and then potentially supplemented by a later PEP
+to add support to the standard library. Informational and Process PEPs do
 not need a Python-Version header.
 
 PEPs may have a Requires header, indicating the PEP numbers that this
@@ -461,10 +617,14 @@ obsolete.
 Auxiliary Files
 ===============
 
-PEPs may include auxiliary files such as diagrams.  Such files must be
+PEPs may include auxiliary files such as diagrams.  Such files should be
 named ``pep-XXXX-Y.ext``, where "XXXX" is the PEP number, "Y" is a
 serial number (starting at 1), and "ext" is replaced by the actual
 file extension (e.g. "png").
+
+Alternatively, all support files may be placed in a subdirectory called
+``pep-XXXX``, where "XXXX" is the PEP number. When using a subdirectory, there
+are no constraints on the names used in files.
 
 
 Reporting PEP Bugs, or Submitting PEP Updates
@@ -475,15 +635,15 @@ factors, such as the maturity of the PEP, the preferences of the PEP
 author, and the nature of your comments.  For the early draft stages
 of the PEP, it's probably best to send your comments and changes
 directly to the PEP author.  For more mature, or finished PEPs you may
-want to submit corrections to the Python `issue tracker`_ so that your
-changes don't get lost.  If the PEP author is a Python developer, assign the
-bug/patch to them, otherwise assign it to a PEP editor.
+want to submit corrections as a `GitHub issue`_ or `GitHub pull request`_ so that
+your changes don't get lost.
 
 When in doubt about where to send your changes, please check first
 with the PEP author and/or a PEP editor.
 
 PEP authors with git push privileges for the PEP repository can update the
-PEPs themselves by using "git push" to submit their changes.
+PEPs themselves by using "git push" or the GitHub PR interface to submit their
+changes.
 
 
 Transferring PEP Ownership
@@ -503,22 +663,29 @@ submit a competing PEP.
 
 If you are interested in assuming ownership of a PEP, you can also do this via
 pull request.  Fork the `PEP repository`_, make your ownership modification,
-and submit a pull request.  You should also send a message asking to take
-over, addressed to both the original author and the PEP editors
-<peps@python.org>.  If the original author doesn't respond to email in a
-timely manner, the PEP editors will make a unilateral decision (it's not like
-such decisions can't be reversed :).
+and submit a pull request.  You should mention both the original author and
+``@python/pep-editors`` in a comment on the pull request.  (If the original
+author's GitHub username is unknown, use email.)  If the original author
+doesn't respond in a timely manner, the PEP editors will make a
+unilateral decision (it's not like such decisions can't be reversed :).
 
 
 PEP Editor Responsibilities & Workflow
 ======================================
 
-A PEP editor must subscribe to the <peps@python.org> list and must watch the
-`PEP repository`_.  Most correspondence regarding PEP administration can be
-handled through GitHub issues and pull requests, but you may also use
-<peps@python.org> for semi-private discussions.  Please do not cross-post!
+A PEP editor must be added to the ``@python/pep-editors`` group on GitHub and
+must watch the `PEP repository`_.
+
+Note that developers with git push privileges for the `PEP repository`_ may
+handle the tasks that would normally be taken care of by the PEP editors.
+Alternately, even developers may request assistance from PEP editors by
+mentioning ``@python/pep-editors`` on GitHub.
 
 For each new PEP that comes in an editor does the following:
+
+* Make sure that the PEP is either co-authored by a core developer, has a core
+  developer as a sponsor, or has a sponsor specifically approved for this PEP
+  by the Steering Council.
 
 * Read the PEP to check if it is ready: sound and complete.  The ideas
   must make technical sense, even if they don't seem likely to be
@@ -526,12 +693,24 @@ For each new PEP that comes in an editor does the following:
 
 * The title should accurately describe the content.
 
-* Edit the PEP for language (spelling, grammar, sentence structure,
-  etc.), markup (for reST PEPs), code style (examples should match PEP
-  8 & 7).
+* The file name extension is correct (i.e. ``.rst``).
+
+* Make sure the appropriate core developer(s) is added to
+  `.github/CODEOWNERS` [7]_.
+
+* Skim the PEP for obvious defects in language (spelling, grammar,
+  sentence structure, etc.), and code style (examples should conform to
+  PEP 8 & PEP 7).  Editors may correct problems themselves, but are
+  not required to do so.  (Text format is checked by Travis CI.)
+
+* If a project is portrayed as benefiting from or supporting the PEP, make sure
+  there is some direct indication from the project included to make the support
+  clear. This is to avoid a PEP accidentally portraying a project as supporting
+  a PEP when in fact the support is based on conjecture.
 
 If the PEP isn't ready, an editor will send it back to the author for
-revision, with specific instructions.
+revision, with specific instructions.  If reST formatting is a
+problem, ask the author(s) to use PEP 12 as a template and resubmit.
 
 Once the PEP is ready for the repository, a PEP editor will:
 
@@ -541,6 +720,10 @@ Once the PEP is ready for the repository, a PEP editor will:
   Py3k-specific proposals.  But now that all new features go into
   Python 3 only, the process is back to using numbers in the 100s again.
   Remember that numbers below 100 are meta-PEPs.)
+
+* Check that the author has correctly labeled the PEP's type
+  ("Standards Track", "Informational", or "Process"), and marked its
+  status as "Draft".
 
 * Add the PEP to a local fork of the PEP repository.  For workflow
   instructions, follow `The Python Developers Guide <http://docs.python.org/devguide>`_
@@ -564,11 +747,10 @@ Once the PEP is ready for the repository, a PEP editor will:
   python-list & -dev).
 
 Updates to existing PEPs should be submitted as a `GitHub pull request`_.
-Questions may of course still be sent to <peps@python.org>.
 
 Many PEPs are written and maintained by developers with write access
-to the Python codebase.  The PEP editors monitor the python-checkins
-list for PEP changes, and correct any structure, grammar, spelling, or
+to the Python codebase.  The PEP editors monitor the PEP repository
+for changes, and correct any structure, grammar, spelling, or
 markup mistakes they see.
 
 PEP editors don't pass judgment on PEPs.  They merely do the
@@ -594,25 +776,29 @@ References and Footnotes
    for retrieving older revisions, and can also be browsed via HTTP here:
    https://github.com/python/peps
 
-.. [2] PEP 2, Procedure for Adding New Modules, Faassen
+.. [2] PEP 2, Procedure for Adding New Modules
    (http://www.python.org/dev/peps/pep-0002)
 
-.. [3] PEP 9, Sample Plaintext PEP Template, Warsaw
+.. [3] PEP 9, Sample Plaintext PEP Template
    (http://www.python.org/dev/peps/pep-0009)
 
-.. [4] PEP 12, Sample reStructuredText PEP Template, Goodger, Warsaw
+.. [4] PEP 12, Sample reStructuredText PEP Template
    (http://www.python.org/dev/peps/pep-0012)
 
-.. [5] The script referred to here is pep2pyramid.py, the successor to
-   pep2html.py, both of which live in the same directory in the hg
-   repo as the PEPs themselves.  Try ``pep2html.py --help`` for
-   details.  The URL for viewing PEPs on the web is
-   http://www.python.org/dev/peps/.
+.. [5] PEP 13, Python Language Governance
+   (http://www.python.org/dev/peps/pep-0013)
+
+.. [6] More details on the PEP rendering and publication process can be found
+   in the PEPs repo README at
+   https://github.com/python/peps/blob/master/README.rst
+
+.. [7] `CODEOWNERS` documentation
+   (https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners)
 
 .. _issue tracker:
    http://bugs.python.org/
 
-.. _Open Publication License: http://www.opencontent.org/openpub/
+.. _CC0-1.0-Universal: https://choosealicense.com/licenses/cc0-1.0/
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 
@@ -622,11 +808,14 @@ References and Footnotes
 
 .. _`GitHub pull request`: https://github.com/python/peps/pulls
 
+.. _`GitHub issue`: https://github.com/python/peps/issues
+
 
 Copyright
 =========
 
-This document has been placed in the public domain.
+This document is placed in the public domain or under the
+CC0-1.0-Universal license, whichever is more permissive.
 
 
 ..

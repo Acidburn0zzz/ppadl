@@ -77,7 +77,7 @@ more standard Python idioms, such ``+`` or ``"".join``.
 Problem
 -------
 
-Implicit String concatentation leads to tuples and lists which are
+Implicit String concatenation leads to tuples and lists which are
 shorter than they appear; this is turn can lead to confusing, or even
 silent, errors.  For example, given a function which accepts several
 parameters, but offers a default value for some of them::
@@ -195,7 +195,7 @@ as opposed to::
     # modulus.  This will no longer be available.
     "abc %s" "def" % var
 
-    # So the 2-to-3 translator can automically replace it with the
+    # So the 2-to-3 translator can automatically replace it with the
     # (already valid):
     ("abc %s" + "def") % var
 
@@ -346,24 +346,24 @@ References
 ==========
 
 ..  [#Orendorff] Implicit String Concatenation, Orendorff
-    http://mail.python.org/pipermail/python-ideas/2007-April/000397.html
+    https://mail.python.org/pipermail/python-ideas/2007-April/000397.html
 
 ..  [#rcn-constantfold] Reminder: Py3k PEPs due by April, Hettinger,
     van Rossum
-    http://mail.python.org/pipermail/python-3000/2007-April/006563.html
+    https://mail.python.org/pipermail/python-3000/2007-April/006563.html
 
 ..  [#PEP3101] PEP 3101, Advanced String Formatting, Talin
     http://www.python.org/dev/peps/pep-3101/
 
 ..  [#elimpercent] ps to question Re: Need help completing ABC pep,
     van Rossum
-    http://mail.python.org/pipermail/python-3000/2007-April/006737.html
+    https://mail.python.org/pipermail/python-3000/2007-April/006737.html
 
 ..  [#skipSQL] (email Subject) PEP 30XZ: Simplified Parsing, Skip,
-    http://mail.python.org/pipermail/python-3000/2007-May/007261.html
+    https://mail.python.org/pipermail/python-3000/2007-May/007261.html
 
 ..  [#barryi8] (email Subject) PEP 30XZ: Simplified Parsing
-    http://mail.python.org/pipermail/python-3000/2007-May/007305.html
+    https://mail.python.org/pipermail/python-3000/2007-May/007305.html
 
 ..  [#gettext] GNU gettext manual
     http://www.gnu.org/software/gettext/

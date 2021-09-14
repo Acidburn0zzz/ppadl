@@ -4,12 +4,18 @@ Version: $Revision$
 Last-Modified: $Date$
 Author: Nick Coghlan <ncoghlan@gmail.com>,
         Mark E. Haase <mehaase@gmail.com>
-Status: Draft
+Status: Deferred
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 30-Oct-2016
-Python-Version: 3.7
+Python-Version: 3.8
 Post-History: 5-Nov-2016
+
+PEP Deferral
+============
+
+Further consideration of this PEP has been deferred until Python 3.8 at the
+earliest.
 
 Abstract
 ========
@@ -343,7 +349,7 @@ conditional expression::
 
 The factory functions in the ``operator`` module would then make it
 straightforward to create circuit breakers that correspond to identity
-checks using the ``is`` and ``is not`` operators:
+checks using the ``is`` and ``is not`` operators::
 
     def is_sentinel(value, sentinel):
         """Returns a circuit breaker switching on 'value is sentinel'"""
@@ -747,7 +753,7 @@ The same logic applies to ``else``, only reversed::
     >>> is_not_none(data.get("key")) else y
 
 This expression returns ``data.get("key")`` if it is not ``None``, otherwise it
-evaluates and returns ``y``. To understand the mechancics, we rewrite the
+evaluates and returns ``y``. To understand the mechanics, we rewrite the
 expression as follows::
 
     >>> maybe_value = is_not_none(data.get("key"))
@@ -877,7 +883,7 @@ References
 ==========
 
 .. [1] PEP 335 rejection notification
-   (http://mail.python.org/pipermail/python-dev/2012-March/117510.html)
+   (https://mail.python.org/pipermail/python-dev/2012-March/117510.html)
 
 .. [2] Steven D'Aprano's critique of the initial draft
    (https://mail.python.org/pipermail/python-ideas/2016-November/043615.html)

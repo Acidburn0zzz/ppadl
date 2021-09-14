@@ -2,12 +2,13 @@ PEP: 446
 Title: Make newly created file descriptors non-inheritable
 Version: $Revision$
 Last-Modified: $Date$
-Author: Victor Stinner <victor.stinner@gmail.com>
+Author: Victor Stinner <vstinner@python.org>
 Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 5-August-2013
+Created: 05-Aug-2013
 Python-Version: 3.4
+Replaces: 433
 
 
 Abstract
@@ -580,7 +581,7 @@ descriptors in child processes. At this time, the default value of the
 
 Read the mail thread: `[Python-Dev] Proposal for a new function
 "open_noinherit" to avoid problems with subprocesses and security risks
-<http://mail.python.org/pipermail/python-dev/2007-June/073688.html>`_.
+<https://mail.python.org/pipermail/python-dev/2007-June/073688.html>`_.
 
 
 PEP 433

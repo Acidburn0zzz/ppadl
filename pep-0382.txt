@@ -98,7 +98,7 @@ Specification
 =============
 
 Rather than using an imperative mechanism for importing packages, a
-declarative approach is proposed here: A directory whose name ends 
+declarative approach is proposed here: A directory whose name ends
 with ``.pyp`` (for Python package) contains a portion of a package.
 
 The import statement is extended so that computes the package's
@@ -175,7 +175,7 @@ extensions related to Python should start with ``.py``. Therefore, the
 marker file was renamed to be ``.pyp``.
 
 Dinu Gherman then observed that using a marker file is not necessary,
-and that a directoy extension could well serve as a such as a
+and that a directory extension could well serve as a such as a
 marker. This is what this PEP currently proposes.
 
 Phillip Eby designed PEP 402 as an alternative approach to this PEP,
@@ -183,7 +183,7 @@ after comparing Python's package syntax with that found in other
 languages. PEP 402 proposes not to use a marker file at all. At the
 discussion at PyCon DE 2011, people remarked that having an explicit
 declaration of a directory as contributing to a package is a desirable
-property, rather than an obstactle. In particular, Jython developers
+property, rather than an obstacle. In particular, Jython developers
 noticed that Jython could easily mistake a directory that is a Java
 package as being a Python package, if there is no need to declare
 Python packages.
@@ -209,7 +209,7 @@ References
        (http://hg.python.org/features/pep-382-2#pep-382)
 
 .. [2] Namespace Packages resolution
-       (http://mail.python.org/pipermail/import-sig/2012-March/000421.html)
+       (https://mail.python.org/pipermail/import-sig/2012-March/000421.html)
 
 Copyright
 =========

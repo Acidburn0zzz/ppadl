@@ -7,7 +7,7 @@ Author: Nick Coghlan <ncoghlan@gmail.com>,
 Status: Withdrawn
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 5-Jun-2012
+Created: 05-Jun-2012
 Python-Version: 3.5
 Post-History: 5-Jun-2012, 10-Feb-2013
 
@@ -532,16 +532,16 @@ does not implement the suggested ``namespace`` parameter for
 TODO
 ====
 
-* address the 5 points in http://mail.python.org/pipermail/python-dev/2013-February/123970.html
+* address the 5 points in https://mail.python.org/pipermail/python-dev/2013-February/123970.html
 
 References
 ==========
 
 .. _published code:
-   http://mail.python.org/pipermail/python-dev/2012-June/119878.html
+   https://mail.python.org/pipermail/python-dev/2012-June/119878.html
 
 .. _more than 10 years ago:
-   http://mail.python.org/pipermail/python-dev/2001-November/018651.html
+   https://mail.python.org/pipermail/python-dev/2001-November/018651.html
 
 .. _Zope's ExtensionClass:
    http://docs.zope.org/zope_secrets/extensionclass.html

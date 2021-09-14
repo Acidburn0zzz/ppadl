@@ -72,8 +72,6 @@ extracted by software tools:
 Please see PEP 258, "Docutils Design Specification" [2]_, for a
 detailed description of attribute and additional docstrings.
 
-XXX Mention docstrings of 2.2 properties.
-
 For consistency, always use ``"""triple double quotes"""`` around
 docstrings.  Use ``r"""raw triple double quotes"""`` if you use any
 backslashes in your docstrings.  For Unicode docstrings, use
@@ -196,7 +194,7 @@ to list each argument on a separate line.  For example::
         real -- the real part (default 0.0)
         imag -- the imaginary part (default 0.0)
         """
-        if imag == 0.0 and real == 0.0: 
+        if imag == 0.0 and real == 0.0:
             return complex_zero
         ...
 

@@ -9,6 +9,7 @@ Content-Type: text/x-rst
 Created: 18-Jun-2002
 Python-Version: 2.4
 Post-History: 18-Jun-2002, 23-Mar-2004, 22-Aug-2004
+Replaces: 215
 
 
 Abstract
@@ -35,7 +36,7 @@ Python currently supports a string substitution syntax based on
 C's ``printf()`` '``%``' formatting character [1]_.  While quite rich,
 ``%``-formatting codes are also error prone, even for
 experienced Python programmers.  A common mistake is to leave off
-the trailing format character, e.g. the '``s``' in ``'%(name)s'``.
+the trailing format character, e.g. the '``s``' in ``"%(name)s"``.
 
 In addition, the rules for what can follow a ``%`` sign are fairly
 complex, while the usual application rarely needs such complexity.
@@ -63,7 +64,7 @@ introduced with the ``$`` character.  The following rules for
 
 3. ``${identifier}`` is equivalent to ``$identifier``.  It is required
    when valid identifier characters follow the placeholder but are
-   not part of the placeholder, e.g. "${noun}ification".
+   not part of the placeholder, e.g. ``"${noun}ification"``.
 
 If the ``$`` character appears at the end of the line, or is followed
 by any other character than those described above, a ``ValueError``
@@ -198,9 +199,9 @@ References
        http://docs.python.org/reference/lexical_analysis.html#identifiers-and-keywords
 
 .. [3] Guido's python-dev posting from 21-Jul-2002
-       http://mail.python.org/pipermail/python-dev/2002-July/026397.html
+       https://mail.python.org/pipermail/python-dev/2002-July/026397.html
 
-.. [4] http://mail.python.org/pipermail/python-dev/2002-June/025652.html
+.. [4] https://mail.python.org/pipermail/python-dev/2002-June/025652.html
 
 .. [5] Reference Implementation
        http://sourceforge.net/tracker/index.php?func=detail&aid=1014055&group_id=5470&atid=305470

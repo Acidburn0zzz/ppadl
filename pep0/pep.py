@@ -69,6 +69,9 @@ class Author(object):
         name_sep = name.index(last_name_fragment)
         self.first = name[:name_sep].rstrip()
         self.last = last_name_fragment
+        if self.last[1] == u'.':
+            # Add an escape to avoid docutils turning `v.` into `22.`.
+            self.last = u'\\' + self.last
         self.suffix = suffix
         if not self.first:
             self.last_first = self.last
@@ -99,11 +102,11 @@ class Author(object):
         name_parts = self.last.split()
         for index, part in enumerate(name_parts):
             if part[0].isupper():
+                base = u' '.join(name_parts[index:]).lower()
                 break
         else:
-            raise ValueError("last name missing a capital letter: %r"
-	                                                       % name_parts)
-        base = u' '.join(name_parts[index:]).lower()
+            # If no capitals, use the whole string
+            base = self.last.lower()
         return unicodedata.normalize('NFKD', base).encode('ASCII', 'ignore')
 
     def _last_name(self, full_name):
@@ -156,9 +159,10 @@ class PEP(object):
     # The various RFC 822 headers that are supported.
     # The second item in the nested tuples represents if the header is
     # required or not.
-    headers = (('PEP', True), ('Title', True), ('Version', True),
-               ('Last-Modified', True), ('Author', True),
-               ('BDFL-Delegate', False),
+    headers = (('PEP', True), ('Title', True), ('Version', False),
+               ('Last-Modified', False), ('Author', True),
+               ('Sponsor', False), ('BDFL-Delegate', False),
+               ('PEP-Delegate', False),
                ('Discussions-To', False), ('Status', True), ('Type', True),
                ('Content-Type', False), ('Requires', False),
                ('Created', True), ('Python-Version', False),
@@ -169,7 +173,8 @@ class PEP(object):
     type_values = (u"Standards Track", u"Informational", u"Process")
     # Valid values for the Status header.
     # Active PEPs can only be for Informational or Process PEPs.
-    status_values = (u"Accepted", u"Rejected", u"Withdrawn", u"Deferred",
+    status_values = (u"Accepted", u"Provisional",
+                     u"Rejected", u"Withdrawn", u"Deferred",
                      u"Final", u"Active", u"Draft", u"Superseded")
 
     def __init__(self, pep_file):
@@ -229,6 +234,11 @@ class PEP(object):
             raise PEPError("Only Process and Informational PEPs may "
                            "have an Active status", pep_file.name,
                            self.number)
+        # Special case for Provisional PEPs.
+        if (status == u"Provisional" and self.type_ != "Standards Track"):
+            raise PEPError("Only Standards Track PEPs may "
+                           "have a Provisional status", pep_file.name,
+                           self.number)
         self.status = status
         # 'Author'.
         authors_and_emails = self._parse_author(metadata['Author'])
@@ -247,7 +257,7 @@ class PEP(object):
         author_list = []
         for regex in (angled, paren, simple):
             # Watch out for commas separating multiple names.
-            regex += u'(,\s*)?'
+            regex += r'(,\s*)?'
             for match in re.finditer(regex, data):
                 # Watch out for suffixes like 'Jr.' when they are comma-separated
                 # from the name and thus cause issues when *all* names are only

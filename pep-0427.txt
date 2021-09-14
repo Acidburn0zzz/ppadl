@@ -5,12 +5,19 @@ Last-Modified: $Date$
 Author: Daniel Holth <dholth@gmail.com>
 BDFL-Delegate: Nick Coghlan <ncoghlan@gmail.com>
 Discussions-To: <distutils-sig@python.org>
-Status: Accepted
+Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 20-Sep-2012
 Post-History: 18-Oct-2012, 15-Feb-2013
-Resolution: http://mail.python.org/pipermail/python-dev/2013-February/124103.html
+Resolution: https://mail.python.org/pipermail/python-dev/2013-February/124103.html
+
+Canonical specification
+=======================
+
+The canonical version of the wheel format specification is now maintained at
+https://packaging.python.org/specifications/binary-distribution-format/ .
+This may contain amendments relative to this PEP.
 
 Abstract
 ========
@@ -80,7 +87,7 @@ Wheel installation notionally consists of two phases:
      ``distutils.command.install``.
   c. If applicable, update scripts starting with ``#!python`` to point
      to the correct interpreter.
-  d. Update ``distribution-1.0.dist.info/RECORD`` with the installed
+  d. Update ``distribution-1.0.dist-info/RECORD`` with the installed
      paths.
   e. Remove empty ``distribution-1.0.data`` directory.
   f. Compile any installed .py to .pyc. (Uninstallers should be smart
@@ -130,10 +137,12 @@ version
     Distribution version, e.g. 1.0.
 
 build tag
-    Optional build number.  Must start with a digit.  A tie breaker
-    if two wheels have the same version.  Sort as the empty string
-    if unspecified, else sort the initial digits as a number, and the
-    remainder lexicographically.
+    Optional build number.  Must start with a digit.  Acts as a
+    tie-breaker if two wheel file names are the same in all other
+    respects (i.e. name, version, and other tags).  Sort as an
+    empty tuple if unspecified, else sort as a two-item tuple with
+    the first item being the initial digits as an ``int``, and the
+    second item being the remainder of the tag as a ``str``.
 
 language implementation and version tag
     E.g. 'py27', 'py2', 'py3'.
@@ -443,7 +452,7 @@ References
 ==========
 
 .. [1] PEP acceptance
-   (http://mail.python.org/pipermail/python-dev/2013-February/124103.html)
+   (https://mail.python.org/pipermail/python-dev/2013-February/124103.html)
 
 
 Appendix

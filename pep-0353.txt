@@ -163,7 +163,7 @@ Python versions.
 If the module should be extended to use Py_ssize_t indices, all usages
 of the type int should be reviewed, to see whether it should be
 changed to Py_ssize_t. The compiler will help in finding the spots,
-but a manual review is still necessary. 
+but a manual review is still necessary.
 
 Particular care must be taken for PyArg_ParseTuple calls:
 they need all be checked for s# and t# converters, and
@@ -214,12 +214,12 @@ Py_ssize_t is just a typedef for int.
 On a 64-bit system, the compiler will warn in many
 places. If these warnings are ignored, the code will
 continue to work as long as the container sizes don't
-exceeed 2**31, i.e. it will work nearly as good as
+exceed 2**31, i.e. it will work nearly as good as
 it does currently. There are two exceptions to this
 statement: if the extension module implements the
 sequence protocol, it must be updated, or the calling
 conventions will be wrong. The other exception is
-the places where Py_ssize_t is output through a 
+the places where Py_ssize_t is output through a
 pointer (rather than a return value); this applies
 most notably to codecs and slice objects.
 
@@ -237,7 +237,7 @@ containers doesn't change, e.g.
 
 * in lists and tuples, a pointer immediately follows
   the ob_size member. This means that the compiler
-  currently inserts a 4 padding bytes; with the 
+  currently inserts a 4 padding bytes; with the
   change, these padding bytes become part of the size.
 * in strings, the ob_shash field follows ob_size.
   This field is of type long, which is a 64-bit

@@ -242,7 +242,7 @@ totally ordered except for NaNs (which this PEP basically ignores). ::
             """self % other
 
             See
-            http://mail.python.org/pipermail/python-3000/2006-May/001735.html
+            https://mail.python.org/pipermail/python-3000/2006-May/001735.html
             and consider using "self/other - trunc(self/other)"
             instead if you're worried about round-off errors.
             """
@@ -259,7 +259,7 @@ totally ordered except for NaNs (which this PEP basically ignores). ::
             raise NotImplementedError
 
         @abstractmethod
-        def __le__(self, other): 
+        def __le__(self, other):
             raise NotImplementedError
 
         # __gt__ and __ge__ are automatically done by reversing the arguments.
@@ -412,7 +412,7 @@ different extensions of the real numbers. For example, a complex type
 could reasonably implement hash() as follows::
 
         def __hash__(self):
-	    return hash(complex(self))
+            return hash(complex(self))
 
 but should be careful of any values that fall outside of the built in
 complex's range or precision.
@@ -526,10 +526,10 @@ References
 
 .. [#numericprelude] NumericPrelude: An experimental alternative hierarchy
    of numeric type classes
-   (http://darcs.haskell.org/numericprelude/docs/html/index.html)
+   (https://archives.haskell.org/code.haskell.org/numeric-prelude/docs/html/index.html)
 
 .. [#schemetower] The Scheme numerical tower
-   (http://www.swiss.ai.mit.edu/ftpdir/scheme-reports/r5rs-html/r5rs_8.html#SEC50)
+   (https://groups.csail.mit.edu/mac/ftpdir/scheme-reports/r5rs-html/r5rs_8.html#SEC50)
 
 
 Acknowledgements

@@ -4,7 +4,7 @@ Version: $Revision$
 Last-Modified: $Date$
 Author: Larry Hastings <larry@hastings.org>
 Discussions-To: Python-Dev <python-dev@python.org>
-Status: Draft
+Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 22-Feb-2013
@@ -350,7 +350,7 @@ value in the generated C code.  Few default values are permitted,
 owing to this manual translation step.
 
 If this were a Python function declaration, a parameter declaration
-would be delimited by either a trailing comma or an ending parentheses.
+would be delimited by either a trailing comma or an ending parenthesis.
 However, Argument Clinic uses neither; parameter declarations are
 delimited by a newline.  A trailing comma or right parenthesis is not
 permitted.
@@ -782,11 +782,11 @@ References
    http://docs.python.org/3/extending/extending.html#keyword-parameters-for-extension-functions
 
 .. [5] Guido van Rossum, posting to python-ideas, March 2012:
-   http://mail.python.org/pipermail/python-ideas/2012-March/014364.html
+   https://mail.python.org/pipermail/python-ideas/2012-March/014364.html
    and
-   http://mail.python.org/pipermail/python-ideas/2012-March/014378.html
+   https://mail.python.org/pipermail/python-ideas/2012-March/014378.html
    and
-   http://mail.python.org/pipermail/python-ideas/2012-March/014417.html
+   https://mail.python.org/pipermail/python-ideas/2012-March/014417.html
 
 .. [6] Argument Clinic prototype:
    https://bitbucket.org/larry/python-clinic/

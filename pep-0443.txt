@@ -2,7 +2,7 @@ PEP: 443
 Title: Single-dispatch generic functions
 Version: $Revision$
 Last-Modified: $Date$
-Author: Łukasz Langa <lukasz@langa.pl>
+Author: Łukasz Langa <lukasz@python.org>
 Discussions-To: Python-Dev <python-dev@python.org>
 Status: Final
 Type: Standards Track
@@ -188,7 +188,7 @@ Abstract Base Classes
 ---------------------
 
 The ``pkgutil.simplegeneric`` implementation relied on several forms of
-method resultion order (MRO). ``@singledispatch`` removes special
+method resolution order (MRO). ``@singledispatch`` removes special
 handling of old-style classes and Zope's ExtensionClasses. More
 importantly, it introduces support for Abstract Base Classes (ABC).
 
@@ -420,5 +420,3 @@ This document has been placed in the public domain.
    fill-column: 70
    coding: utf-8
    End:
-
-

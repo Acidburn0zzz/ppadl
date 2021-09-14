@@ -6,7 +6,7 @@ Author: Brett Cannon <brett@python.org>, Martin von Löwis <martin@v.loewis.de>
 Status: Active
 Type: Process
 Content-Type: text/x-rst
-Created: 1-Oct-2000
+Created: 01-Oct-2000
 Post-History:
 
 
@@ -34,8 +34,7 @@ Procedure for declaring a module deprecated
 
 Since the status of module deprecation is recorded in this PEP,
 proposals for deprecating modules MUST be made by providing a change
-to the text of this PEP, which SHOULD be a patch posted to
-bugs.python.org.
+to the text of this PEP.
 
 A proposal for deprecation of the module MUST include the date of the
 proposed deprecation and a rationale for deprecating it.  In addition,
@@ -47,7 +46,7 @@ DeprecationWarning.  The proposal MUST include patches to remove any
 use of the deprecated module from the standard library.
 
 It is expected that deprecated modules are included in the Python
-releases that immediately follows the deprecation; later releases may
+release that immediately follows the deprecation; later releases may
 ship without the deprecated modules.
 
 
@@ -280,6 +279,16 @@ Deprecated modules
     Date:          2013-08-12
     Documentation: Deprecated as of Python 3.4.
 
+    Module name:   macpath
+    Rationale:     Obsolete macpath module dangerously broken
+                   and should be removed.
+    Date:          2017-05-15
+    Documentation: Platform is obsolete/unsupported.
+
+    Module name:   xml.etree.cElementTree
+    Rationale:     Obsolete, use xml.etree.ElementTree
+    Date:          2019-04-06
+    Documentation: Documented as deprecated since 3.3
 
 Deprecation of modules removed in Python 3.0
 ============================================

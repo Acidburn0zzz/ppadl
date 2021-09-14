@@ -2,14 +2,14 @@ PEP: 445
 Title: Add new APIs to customize Python memory allocators
 Version: $Revision$
 Last-Modified: $Date$
-Author: Victor Stinner <victor.stinner@gmail.com>
+Author: Victor Stinner <vstinner@python.org>
 BDFL-Delegate: Antoine Pitrou <solipsis@pitrou.net>
 Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 15-Jun-2013
 Python-Version: 3.4
-Resolution: http://mail.python.org/pipermail/python-dev/2013-July/127222.html
+Resolution: https://mail.python.org/pipermail/python-dev/2013-July/127222.html
 
 Abstract
 ========
@@ -164,7 +164,7 @@ allocator allocates a larger buffer and writes a pattern to detect buffer
 underflow, buffer overflow and use after free (by filling the buffer with
 the byte ``0xDB``). It uses the original ``PyObject_Malloc()``
 function to allocate memory. So ``PyMem_Malloc()`` and
-``PyMem_Realloc()`` indirectly call``PyObject_Malloc()`` and
+``PyMem_Realloc()`` indirectly call ``PyObject_Malloc()`` and
 ``PyObject_Realloc()``.
 
 This PEP redesigns the debug checks as hooks on the existing allocators

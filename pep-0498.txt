@@ -3,7 +3,7 @@ Title: Literal String Interpolation
 Version: $Revision$
 Last-Modified: $Date$
 Author: Eric V. Smith <eric@trueblade.com>
-Status: Accepted
+Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
 Created: 01-Aug-2015
@@ -26,7 +26,7 @@ strings, and standing for "formatted strings".
 This PEP does not propose to remove or deprecate any of the existing
 string formatting mechanisms.
 
-f-strings provide a way to embed expressions inside string literals,
+F-strings provide a way to embed expressions inside string literals,
 using a minimal syntax. It should be noted that an f-string is really
 an expression evaluated at run time, not a constant value. In Python
 source code, an f-string is a literal string, prefixed with 'f', which
@@ -103,7 +103,7 @@ With an f-string, this becomes::
   >>> f'The value is {value}.'
   'The value is 80.'
 
-f-strings provide a concise, readable way to include the value of
+F-strings provide a concise, readable way to include the value of
 Python expressions inside strings.
 
 In this sense, ``string.Template`` and %-formatting have similar
@@ -164,7 +164,10 @@ globals() has access to far more information than needed to do the
 string interpolation.
 
 Guido stated [#]_ that any solution to better string interpolation
-would not use locals() or globals().
+would not use locals() or globals() in its implementation.  (This does
+not forbid users from passing locals() or globals() in, it just
+doesn't require it, nor does it allow using these functions under the
+hood.)
 
 Specification
 =============
@@ -212,6 +215,7 @@ conversions are applied before the call to ``format()``. The only
 reason to use ``'!s'`` is if you want to specify a format specifier
 that applies to ``str``, not to the type of the expression.
 
+F-strings use the same format specifier mini-language as ``str.format``.
 Similar to ``str.format()``, optional format specifiers maybe be
 included inside the f-string, separated from the expression (or the
 type conversion, if specified) by a colon. If a format specifier is
@@ -649,7 +653,7 @@ Lambdas inside expressions
 --------------------------
 
 Because lambdas use the ``':'`` character, they cannot appear outside
-of parenthesis in an expression. The colon is interpreted as the start
+of parentheses in an expression. The colon is interpreted as the start
 of the format specifier, which means the start of the lambda
 expression is seen and is syntactically invalid. As there's no
 practical use for a plain lambda in an f-string expression, this is

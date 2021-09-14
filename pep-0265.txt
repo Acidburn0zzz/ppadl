@@ -6,7 +6,7 @@ Author: g2@iowegian.com (Grant Griffin)
 Status: Rejected
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 8-Aug-2001
+Created: 08-Aug-2001
 Python-Version: 2.2
 Post-History:
 
@@ -84,7 +84,7 @@ resulting in::
     [('b', 23), ('d', 17), ('c', 5), ('a', 2), ('e', 1)]
 
 which shows the list in by-value order, largest first.  (In this
-case, ``b`` was found to have the most occurrences.)
+case, ``'b'`` was found to have the most occurrences.)
 
 This works fine, but is "hard to use" in two aspects.  First,
 although this idiom is known to veteran Pythoneers, it is not at
@@ -214,4 +214,4 @@ This document has been placed in the public domain.
   mode: indented-text
   indent-tabs-mode: nil
   End:
-  
+

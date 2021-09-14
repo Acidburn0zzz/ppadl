@@ -39,7 +39,7 @@ Memory is conserved by using a generator expression instead::
 
 Similar benefits are conferred on constructors for container objects::
 
-    s = Set(word  for line in page  for word in line.split())
+    s = set(word  for line in page  for word in line.split())
     d = dict( (k, func(k)) for k in keylist)
 
 Generator expressions are especially useful with functions like sum(),
@@ -134,11 +134,11 @@ semantic and syntactic specification.)
       changes to::
 
          atom: '(' [testlist_gexp] ')'
-    
+
       where testlist_gexp is almost the same as listmaker, but only
       allows a single test after 'for' ... 'in'::
 
-         testlist_gexp: test ( gen_for | (',' test)* [','] )          
+         testlist_gexp: test ( gen_for | (',' test)* [','] )
 
    b)  The rule for arglist needs similar changes.
 
@@ -243,7 +243,7 @@ issues were hard to understand and that users should be strongly
 encouraged to use generator expressions inside functions that consume
 their arguments immediately.  For more complex applications, full
 generator definitions are always superior in terms of being obvious
-about scope, lifetime, and binding [6]_. 
+about scope, lifetime, and binding [6]_.
 
 
 Reduction Functions
@@ -277,7 +277,7 @@ Acknowledgements
   Hye-Shik Chang and Raymond Hettinger teased out the issues surrounding
   early versus late binding [5]_.
 
-* Jiwon Seo single handedly implemented various versions of the proposal
+* Jiwon Seo single-handedly implemented various versions of the proposal
   including the final version loaded into CVS.  Along the way, there
   were periodic code reviews by Hye-Shik Chang and Raymond Hettinger.
   Guido van Rossum made the key design decisions after comments from
@@ -298,13 +298,13 @@ References
 
 .. [4] Jeff Epler had worked up a patch demonstrating
        the previously proposed bracket and yield syntax
-       http://python.org/sf/795947
+       https://bugs.python.org/issue795947
 
 .. [5] Discussion over the relative merits of early versus late binding
-       http://mail.python.org/pipermail/python-dev/2004-April/044555.html
+       https://mail.python.org/pipermail/python-dev/2004-April/044555.html
 
 .. [6] Patch discussion and alternative patches on Source Forge
-       http://www.python.org/sf/872326
+       https://bugs.python.org/issue872326
 
 
 Copyright

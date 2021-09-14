@@ -60,21 +60,21 @@ Basic Syntax and Semantics
 
 The syntax of a 'with' statement is as follows::
 
-	'with' [ var '=' ] expr ':'
+    'with' [ var '=' ] expr ':'
         suite
 
 This statement is defined as being equivalent to the following
 sequence of statements::
 
-	var = expr
+    var = expr
 
-	if hasattr(var, "__enter__"):
+    if hasattr(var, "__enter__"):
         var.__enter__()
 
-	try:
+    try:
         suite
 
-	finally:
+    finally:
         var.__exit__()
 
 (The presence of an ``__exit__`` method is *not* checked like that of
@@ -181,7 +181,7 @@ Alternative Ideas
 =================
 
 IEXEC: Holger Krekel -- generalised approach with XML-like syntax
-(no URL found...)
+(no URL found...).
 
 Holger has much more far-reaching ideas about "execution monitors"
 that are informed about details of control flow in the monitored
@@ -210,7 +210,7 @@ complicated have something else to complain about.  It's something
 else to teach.
 
 For the proposal to be useful, many file-like and lock-like
-classes in the standard library and other code will have to have::
+classes in the standard library and other code will have to have ::
 
    __exit__ = close
 
@@ -235,15 +235,12 @@ could be mentioned here.
        http://starship.python.net/crew/mwh/pep310/
 
 .. [2] Samuele Pedroni on python-dev
-       http://mail.python.org/pipermail/python-dev/2003-August/037795.html
+       https://mail.python.org/pipermail/python-dev/2003-August/037795.html
 
 .. [3] Thread on python-dev with subject
-
-.. [Python-Dev] pre-PEP: Resource-Release Support for Generators
-
-                starting at
-
-                http://mail.python.org/pipermail/python-dev/2003-August/037803.html
+       `[Python-Dev] pre-PEP: Resource-Release Support for Generators`
+       starting at
+       https://mail.python.org/pipermail/python-dev/2003-August/037803.html
 
 Copyright
 =========

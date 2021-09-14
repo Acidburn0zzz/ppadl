@@ -175,7 +175,7 @@ The company name ``PyLauncher`` is reserved for the PEP 397 launcher
 (``py.exe``). It does not follow this convention and should be ignored by tools.
 
 If a string value named ``DisplayName`` exists, it should be used to identify
-the environment manufacturer/developer/destributor to users. Otherwise, the name
+the environment manufacturer/developer/distributor to users. Otherwise, the name
 of the key should be used. (For ``PythonCore``, the default display name is
 "Python Software Foundation".)
 
@@ -359,7 +359,7 @@ of ``PythonCore`` is omitted but shown in a later example::
         (winreg.HKEY_LOCAL_MACHINE, r'Software\Python', winreg.KEY_WOW64_32KEY),
     ]:
         with winreg.OpenKeyEx(hive, key, access=winreg.KEY_READ | flags) as root_key:
-            for comany in enum_keys(root_key):
+            for company in enum_keys(root_key):
                 if company == 'PyLauncher':
                     continue
 
@@ -429,7 +429,7 @@ do not have any default values::
                 # Tools may use alternate approaches to determine architecture when
                 # the registration does not specify it.
                 print('SysArchitecture:', get_value(tag_key, 'SysArchitecture') or '(unknown)')
-            
+
             try:
                 ip_key = winreg.OpenKey(company_key, tag + '\\InstallPath')
             except FileNotFoundError:
@@ -451,7 +451,7 @@ just-for-me install of 64-bit Python 3.6.0. Other keys may also be created::
         (Default) = (value not set)
         DisplayName = "Python Software Foundation"
         SupportUrl = "http://www.python.org/"
-    
+
     HKEY_CURRENT_USER\Software\Python\PythonCore\3.6
         (Default) = (value not set)
         DisplayName = "Python 3.6 (64-bit)"
@@ -459,11 +459,11 @@ just-for-me install of 64-bit Python 3.6.0. Other keys may also be created::
         Version = "3.6.0"
         SysVersion = "3.6"
         SysArchitecture = "64bit"
-    
+
     HKEY_CURRENT_USER\Software\Python\PythonCore\3.6\Help\Main Python Documentation
         (Default) = "C:\Users\Me\AppData\Local\Programs\Python\Python36\Doc\python360.chm"
         DisplayName = "Python 3.6.0 Documentation"
-    
+
     HKEY_CURRENT_USER\Software\Python\PythonCore\3.6\InstallPath
         (Default) = "C:\Users\Me\AppData\Local\Programs\Python\Python36\"
         ExecutablePath = "C:\Users\Me\AppData\Local\Programs\Python\Python36\python.exe"

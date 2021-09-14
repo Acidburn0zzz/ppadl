@@ -15,7 +15,7 @@ Resolution: https://mail.python.org/pipermail/python-dev/2015-February/138598.ht
 Abstract
 ========
 
-This PEP proposes the addition of an is_close() function to the standard
+This PEP proposes the addition of an isclose() function to the standard
 library math module that determines whether one value is approximately equal
 or "close" to another value.
 
@@ -117,7 +117,7 @@ multiplication, comparisons, and subtraction. However, the implementation
 in the math module is written in C, and thus can not (easily) use python's
 duck typing. Rather, the values passed into the funciton will be converted
 to the float type before the calculation is performed. Passing in types
-(or values) that cannot be converted to floats will raise an appropirate
+(or values) that cannot be converted to floats will raise an appropriate
 Exception (TypeError, ValueError, or OverflowError).
 
 The code will be tested to accommodate at least some values of these types:
@@ -390,7 +390,7 @@ there was no benefit to the method worth reducing the range of
 functionality or adding the complexity of checking values to determine
 the order of computation.
 
-This leaves the boost "weak" test (2)-- or using the smaller value to
+This leaves the boost "weak" test (2)-- or using the larger value to
 scale the tolerance, or the Boost "strong" (3) test, which uses the
 smaller of the values to scale the tolerance. For small tolerance,
 they yield the same result, but this proposal uses the boost "weak"
@@ -427,7 +427,7 @@ yield the same result, and it is also about half of the precision
 available to a python float. In the general case, a good numerical
 algorithm is not expected to lose more than about half of available
 digits of accuracy, and if a much larger tolerance is acceptable, the
-user should be considering the proper value in that case. Thus 1-e9 is
+user should be considering the proper value in that case. Thus 1e-9 is
 expected to "just work" for many cases.
 
 Absolute tolerance default
@@ -447,7 +447,7 @@ appropriate value.
 It was suggested that comparing to zero is, in fact, a common use case
 (evidence suggest that the numpy functions are often used with zero).
 In this case, it would be desirable to have a "useful" default. Values
-around 1-e8 were suggested, being about half of floating point
+around 1e-8 were suggested, being about half of floating point
 precision for values of around value 1.
 
 However, to quote The Zen: "In the face of ambiguity, refuse the
@@ -463,7 +463,7 @@ Expected Uses
 The primary expected use case is various forms of testing -- "are the
 results computed near what I expect as a result?" This sort of test
 may or may not be part of a formal unit testing suite. Such testing
-could be used one-off at the command line, in an iPython notebook,
+could be used one-off at the command line, in an IPython notebook,
 part of doctests, or simple asserts in an ``if __name__ == "__main__"``
 block.
 

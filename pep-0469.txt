@@ -6,7 +6,7 @@ Author: Nick Coghlan <ncoghlan@gmail.com>
 Status: Withdrawn
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 2014-04-18
+Created: 18-Apr-2014
 Python-Version: 3.5
 Post-History: 2014-04-18, 2014-04-21
 
@@ -126,7 +126,7 @@ in order to iterate again.
 In Python 3, direct iteration over mappings works the same way as it does
 in Python 2. There are no method based equivalents - the semantic equivalents
 of ``d.itervalues()`` and ``d.iteritems()`` in Python 3 are
-``iter(d.values())`` and ``iter(d.iteritems())``.
+``iter(d.values())`` and ``iter(d.items())``.
 
 The ``six`` and ``future.utils`` compatibility modules also both provide
 ``iterkeys()``, ``itervalues()`` and ``iteritems()`` helper functions that
@@ -354,7 +354,7 @@ versions are pretty much equivalent from a readability perspective.
 So unless I've missed something critical, readily available ``listvalues()``
 and ``listitems()`` helper functions look like they will improve the
 readability of hybrid code more than anything we could add back to the
-Python 3.5+ mapping API, and won't have any long term impact on the
+Python 3.5+ mapping API, and won't have any long-term impact on the
 complexity of Python 3 itself.
 
 

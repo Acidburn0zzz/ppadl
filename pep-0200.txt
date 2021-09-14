@@ -6,7 +6,7 @@ Author: Jeremy Hylton <jeremy@alum.mit.edu>
 Status: Final
 Type: Informational
 Content-Type: text/x-rst
-Created:
+Created: 12-Jul-2000
 Python-Version: 2.0
 Post-History:
 
@@ -27,7 +27,7 @@ Release Schedule
 [revised 5 Oct 2000]
 
 
-* 26-Sep-2000: 2.0 beta 2 
+* 26-Sep-2000: 2.0 beta 2
 * 9-Oct-2000: 2.0 release candidate 1 (2.0c1)
 * 16-Oct-2000: 2.0 final
 
@@ -265,7 +265,7 @@ Open items -- completed/fixed
     Deal with buffering problem with SocketServer
 
     [04-Sep-2000 tim:  done; installer runs; w9xpopen not an issue]
-    [01-Sep-2000 tim:  make a prerelease availabe]
+    [01-Sep-2000 tim:  make a prerelease available]
     Windows ME:  Don't know anything about it.  Will the installer
     even run?  Does it need the w9xpopen hack?
 
@@ -366,7 +366,7 @@ Postponed
 
   - http://www.python.org/pipermail/python-dev/2000-April/subject.html
     Subject: "Why do we need Traceback Objects?"
-  
+
   - http://www.python.org/pipermail/python-dev/1999-August/002252.html
 
 * test harness for C code - Trent Mick

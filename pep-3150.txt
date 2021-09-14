@@ -6,10 +6,9 @@ Author: Nick Coghlan <ncoghlan@gmail.com>
 Status: Deferred
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 2010-07-09
+Created: 09-Jul-2010
 Python-Version: 3.4
 Post-History: 2010-07-14, 2011-04-21, 2011-06-13
-Resolution: TBD
 
 
 Abstract
@@ -487,7 +486,7 @@ alternative that still allows the key function to be defined inline::
                         key=operator.attrgetter(v. 'attr1', 'attr2'))
 
 Again, it gets the job done, but even the most generous of readers would
- not consider that to be "executable pseudocode".
+not consider that to be "executable pseudocode".
 
 If they think both of the above options are ugly and confusing, or they need
 logic in their key function that can't be expressed as an expression (such
@@ -717,7 +716,7 @@ Rejected Alternatives
   the general structure of the syntax as defined in this PEP (For example,
   allowing a subexpression like ``?given`` or ``:given`` to be used in
   expressions to indicate a direct reference to the implied closure, thus
-  preventig it from being called automatically to create the local namespace).
+  preventing it from being called automatically to create the local namespace).
   All such attempts have appeared unattractive and confusing compared to
   the simpler decorator-inspired proposal in PEP 403.
 
@@ -740,34 +739,34 @@ References
 ==========
 
 .. [1] Explicitation lines in Python:
-   http://mail.python.org/pipermail/python-ideas/2010-June/007476.html
+   https://mail.python.org/pipermail/python-ideas/2010-June/007476.html
 
 .. [2] 'where' statement in Python:
-   http://mail.python.org/pipermail/python-ideas/2010-July/007584.html
+   https://mail.python.org/pipermail/python-ideas/2010-July/007584.html
 
 .. [3] Where-statement (Proposal for function expressions):
-   http://mail.python.org/pipermail/python-ideas/2009-July/005132.html
+   https://mail.python.org/pipermail/python-ideas/2009-July/005132.html
 
 .. [4] Name conflict with NumPy for 'where' keyword choice:
-   http://mail.python.org/pipermail/python-ideas/2010-July/007596.html
+   https://mail.python.org/pipermail/python-ideas/2010-July/007596.html
 
 .. [5] The "Status quo wins a stalemate" design principle:
    http://www.boredomandlaziness.org/2011/02/status-quo-wins-stalemate.html
 
 .. [6] Assignments in list/generator expressions:
-   http://mail.python.org/pipermail/python-ideas/2011-April/009863.html
+   https://mail.python.org/pipermail/python-ideas/2011-April/009863.html
 
 .. [7] Possible PEP 3150 style guidelines (#1):
-   http://mail.python.org/pipermail/python-ideas/2011-April/009869.html
+   https://mail.python.org/pipermail/python-ideas/2011-April/009869.html
 
 .. [8] Discussion of PEP 403 (statement local function definition):
-   http://mail.python.org/pipermail/python-ideas/2011-October/012276.html
+   https://mail.python.org/pipermail/python-ideas/2011-October/012276.html
 
 .. [9] Possible PEP 3150 style guidelines (#2):
-   http://mail.python.org/pipermail/python-ideas/2011-October/012341.html
+   https://mail.python.org/pipermail/python-ideas/2011-October/012341.html
 
 .. [10] Multi-line lambdas (again!)
-   http://mail.python.org/pipermail/python-ideas/2013-August/022526.html
+   https://mail.python.org/pipermail/python-ideas/2013-August/022526.html
 
 Copyright
 =========

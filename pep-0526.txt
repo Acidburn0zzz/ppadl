@@ -177,6 +177,8 @@ one to annotate the types of variables when tuple unpacking is used::
 
   # Tuple packing with variable annotation syntax
   t: Tuple[int, ...] = (1, 2, 3)
+  # or
+  t: Tuple[int, ...] = 1, 2, 3  # This only works in Python 3.8+
 
   # Tuple unpacking with variable annotation syntax
   header: str
@@ -229,6 +231,10 @@ Here ``ClassVar`` is a special class defined by the typing module that
 indicates to the static type checker that this variable should not be
 set on instances.
 
+Note that a ``ClassVar`` parameter cannot include any type variables, regardless
+of the level of nesting: ``ClassVar[T]`` and ``ClassVar[List[Set[T]]]`` are
+both invalid if ``T`` is a type variable.
+
 This could be illustrated with a more detailed example. In this class::
 
   class Starship:
@@ -278,7 +284,7 @@ As a matter of convenience (and convention), instance variables can be
 annotated in ``__init__`` or other methods, rather than in the class::
 
   from typing import Generic, TypeVar
-  T = TypeVar(’T’)
+  T = TypeVar('T')
 
   class Box(Generic[T]):
       def __init__(self, content):
@@ -336,6 +342,47 @@ unpacking::
   f: MyFile
   with myfunc() as f:
       ...
+
+Variable annotations in stub files
+**********************************
+
+As variable annotations are more readable than type comments, they are
+preferred in stub files for all versions of Python, including Python 2.7.
+Note that stub files are not executed by Python interpreters, and therefore
+using variable annotations will not lead to errors. Type checkers should
+support variable annotations in stubs for all versions of Python. For example::
+
+  # file lib.pyi
+
+  ADDRESS: unicode = ...
+
+  class Error:
+      cause: Union[str, unicode]
+
+Preferred coding style for variable annotations
+***********************************************
+
+Annotations for module level variables, class and instance variables,
+and local variables should have a single space after corresponding colon.
+There should be no space before the colon. If an assignment has right hand
+side, then the equality sign should have exactly one space on both sides.
+Examples:
+
+- Yes::
+
+    code: int
+
+    class Point:
+        coords: Tuple[int, int]
+        label: str = '<unknown>'
+
+- No::
+
+    code:int  # No space after colon
+    code : int  # Space before colon
+
+    class Test:
+        result: int=0  # No spaces around equality sign
 
 
 Changes to Standard Library and Documentation
@@ -440,7 +487,7 @@ Note that if annotations are not found statically, then the
 ``__annotations__`` dictionary is not created at all. Also the
 value of having annotations available locally does not offset
 the cost of having to create and populate the annotations dictionary
-on every function call. Therefore annotations at function level are
+on every function call. Therefore, annotations at function level are
 not evaluated and not stored.
 
 Other uses of annotations
@@ -484,7 +531,7 @@ Rejected/Postponed Proposals
   globals. Second, no matter what we choose, we'd still need
   a ``__future__`` import.
 
-- **Use 'def' as a keyword:**
+- **Use** ``def`` **as a keyword:**
   The proposal would be::
 
     def primes: List[int] = []
@@ -498,7 +545,7 @@ Rejected/Postponed Proposals
 - **Use function based syntax**:
   It was proposed to annotate types of variables using
   ``var = cast(annotation[, value])``. Although this syntax
-  alleviates some problems with type comments like absence of tne annotation
+  alleviates some problems with type comments like absence of the annotation
   in AST, it does not solve other problems such as readability
   and it introduces possible runtime overhead.
 
@@ -514,7 +561,7 @@ Rejected/Postponed Proposals
   signature.)  Rather than leave the (human) reader guessing, we
   forbid this, at least for now.
 
-- **Parenthesized form ``(var: type)`` for annotations:**
+- **Parenthesized form** ``(var: type)`` **for annotations:**
   It was brought up on python-ideas as a remedy for the above-mentioned
   ambiguity, but it was rejected since such syntax would be hairy,
   the benefits are slight, and the readability would be poor.
@@ -529,7 +576,7 @@ Rejected/Postponed Proposals
   it is ambiguous, what should the types of ``y`` and  ``z`` be?
   Also the second line is difficult to parse.
 
-- **Allow annotations in ``with`` and ``for`` statement:**
+- **Allow annotations in** ``with`` **and** ``for`` **statement:**
   This was rejected because in ``for`` it would make it hard to spot the actual
   iterable, and in ``with`` it would confuse the CPython's LL(1) parser.
 
@@ -577,6 +624,11 @@ Rejected/Postponed Proposals
   It could also flag instance variables with mutable defaults,
   a well-known hazard.
 
+- **Use** ``ClassAttr`` **instead of** ``ClassVar``:
+  The main reason why ``ClassVar`` is better is following: many things are
+  class attributes, e.g. methods, descriptors, etc. But only specific
+  attributes are conceptually class variables (or maybe constants).
+
 - **Do not evaluate annotations, treat them as strings:**
   This would be inconsistent with the behavior of function annotations that
   are always evaluated. Although this might be reconsidered in future,
@@ -589,7 +641,7 @@ Rejected/Postponed Proposals
   This, in turn, would defeat the purpose of the PEP --
   collaborating with the third party type checking tools.
 
-- **Implement ``__annotations__`` as a descriptor:**
+- **Implement** ``__annotations__`` **as a descriptor:**
   This was proposed to prohibit setting ``__annotations__`` to something
   non-dictionary or non-None. Guido has rejected this idea as unnecessary;
   instead a TypeError will be raised if an attempt is made to update

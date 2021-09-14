@@ -6,7 +6,7 @@ Author: Nick Coghlan <ncoghlan@gmail.com>
 Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 1-May-2007
+Created: 01-May-2007
 Python-Version: 2.6, 3.0
 Post-History: 1-May-2007, 4-Jul-2007, 7-Jul-2007, 23-Nov-2007
 
@@ -125,19 +125,19 @@ References
 ==========
 
 .. [1] Absolute/relative import not working?
-   (http://www.python.org/sf/1510172)
+   (https://bugs.python.org/issue1510172)
 
 .. [2] c.l.p. question about modules and relative imports
    (http://groups.google.com/group/comp.lang.python/browse_thread/thread/c44c769a72ca69fa/)
 
 .. [3] Guido's rejection of PEP 3122
-   (http://mail.python.org/pipermail/python-3000/2007-April/006793.html)
+   (https://mail.python.org/pipermail/python-3000/2007-April/006793.html)
 
 .. [4] PEP 366 implementation patch
    (http://bugs.python.org/issue1487)
 
 .. [5] Acceptance of the PEP
-   (http://mail.python.org/pipermail/python-dev/2007-November/075475.html)
+   (https://mail.python.org/pipermail/python-dev/2007-November/075475.html)
 
 Copyright
 =========

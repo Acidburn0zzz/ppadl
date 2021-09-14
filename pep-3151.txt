@@ -7,10 +7,10 @@ BDFL-Delegate: Barry Warsaw
 Status: Final
 Type: Standards Track
 Content-Type: text/x-rst
-Created: 2010-07-21
+Created: 21-Jul-2010
 Python-Version: 3.3
 Post-History:
-Resolution: http://mail.python.org/pipermail/python-dev/2011-October/114033.html
+Resolution: https://mail.python.org/pipermail/python-dev/2011-October/114033.html
 
 Abstract
 ========
@@ -196,7 +196,7 @@ Then we can define *useful compatibility* as follows:
   caught after this PEP, but the reverse may be false (because the coalescing
   of ``OSError``, ``IOError`` and others means the ``except`` clause throws
   a slightly broader net)::
-  
+
       try:
           ...
           os.remove(filename)
@@ -437,7 +437,7 @@ Naming
 
 Various naming controversies can arise.  One of them is whether all
 exception class names should end in "``Error``".  In favour is consistency
-with the rest of the exception hiearchy, against is concision (especially
+with the rest of the exception hierarchy, against is concision (especially
 with long names such as ``ConnectionAbortedError``).
 
 Exception attributes
@@ -477,7 +477,7 @@ Namespace pollution
 Making the exception hierarchy finer-grained makes the root (or builtins)
 namespace larger.  This is to be moderated, however, as:
 
-* only a handful of additional classes are proposed; 
+* only a handful of additional classes are proposed;
 
 * while standard exception types live in the root namespace, they are
   visually distinguished by the fact that they use the CamelCase convention,
@@ -687,7 +687,7 @@ Interpreter core
 Handling of PYTHONSTARTUP raises IOError (but the error gets discarded)::
 
     $ PYTHONSTARTUP=foox ./python
-    Python 3.2a0 (py3k:82920M, Jul 16 2010, 22:53:23) 
+    Python 3.2a0 (py3k:82920M, Jul 16 2010, 22:53:23)
     [GCC 4.4.3] on linux2
     Type "help", "copyright", "credits" or "license" for more information.
     Could not open PYTHONSTARTUP
@@ -942,7 +942,7 @@ References
 ==========
 
 .. [1] "IO module precisions and exception hierarchy":
-   http://mail.python.org/pipermail/python-dev/2009-September/092130.html
+   https://mail.python.org/pipermail/python-dev/2009-September/092130.html
 
 .. [2] Discussion of "Removing WindowsError" in PEP 348:
    http://www.python.org/dev/peps/pep-0348/#removing-windowserror

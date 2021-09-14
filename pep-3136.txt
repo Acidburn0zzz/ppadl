@@ -15,7 +15,7 @@ Rejection Notice
 ================
 
 This PEP is rejected.
-See http://mail.python.org/pipermail/python-3000/2007-July/008663.html.
+See https://mail.python.org/pipermail/python-3000/2007-July/008663.html.
 
 
 
@@ -187,7 +187,7 @@ than a label::
                 break 2;
             }
             ....
-	}
+        }
         ...
     }
 
@@ -275,7 +275,7 @@ Or, with ``label`` instead of ``as``::
                 break a_loop
             ...
         ...
-    
+
 
 This has all the benefits outlined above.  It requires modifications
 to the language syntax: the syntax of ``break`` and ``continue``
@@ -438,9 +438,9 @@ Footnotes
    likes: ``as``, ``label``, ``labeled``, ``loop``, ``name``, ``named``,
    ``walrus``, whatever.
 
-.. [#as] The use of ``as`` in a similar context has been proposed here, 
+.. [#as] The use of ``as`` in a similar context has been proposed here,
    http://sourceforge.net/tracker/index.php?func=detail&aid=1714448&group_id=5470&atid=355470
-   but to my knowledge this idea has not been written up as a PEP. 
+   but to my knowledge this idea has not been written up as a PEP.
 
 .. [#breakcontinue] To continue the Nth outer loop, you would write
    break N-1 times and then continue.  Only one ``continue`` would be
@@ -458,16 +458,16 @@ my knowledge.
   ``do...while`` loops
 
   __ http://groups.google.com/group/comp.lang.python/browse_thread/thread/6da848f762c9cf58/979ca3cd42633b52?lnk=gst&q=labeled+break&rnum=3#979ca3cd42633b52
-  
+
 * `break LABEL vs. exceptions + PROPOSAL`__, on python-list, as
   compared to using Exceptions for flow control
 
-  __ http://mail.python.org/pipermail/python-list/1999-September/#11080
+  __ https://mail.python.org/pipermail/python-list/1999-September/#11080
 
 * `Named code blocks`__ on python-list, a suggestion motivated by the
   desire for labeled break / continue
 
-  __ http://mail.python.org/pipermail/python-list/2001-April/#78439
+  __ https://mail.python.org/pipermail/python-list/2001-April/#78439
 
 * `mod_python bug fix`__ An example of someone setting a flag inside
   an inner loop that triggers a continue in the containing loop, to

@@ -89,7 +89,7 @@ logger.
 
 So ``print`` and ``sys.std{out|err}.write`` statements should be
 replaced with ``_log.{debug|info}``, and ``traceback.print_exception``
-with ``_log.exception`` or sometimes ``_log.debug('...', exc_info=1)```.
+with ``_log.exception`` or sometimes ``_log.debug('...', exc_info=1)``.
 
 
 Module List
@@ -189,7 +189,7 @@ References
 .. [1] PEP 282, A Logging System, Vinay Sajip, Trent Mick
        http://www.python.org/dev/peps/pep-0282/
 
-.. [2] http://mail.python.org/pipermail/python-dev/2004-October/049282.html
+.. [2] https://mail.python.org/pipermail/python-dev/2004-October/049282.html
 
 
 Copyright
