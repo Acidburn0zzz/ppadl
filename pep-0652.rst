@@ -37,9 +37,9 @@ In theory, this brings several advantages:
   details, this API is becoming a viable target for alternate Python
   implementations that would be incompatible with the full C API.
 
-However, in hindsight, PEP 384 and its implementation has several issues:
+However, in hindsight, :pep:`384` and its implementation has several issues:
 
-* It is ill-defined. According to PEP 384, functions are *opt-out*:
+* It is ill-defined. According to :pep:`384`, functions are *opt-out*:
   all functions not specially marked are part of the Stable ABI.
   In practice, for Windows there's a list that's *opt-in*.
   For users there is a ``#define`` that should make only the Stable ABI
@@ -71,7 +71,7 @@ but has major issues: for example, the set exported symbols has
 platform-specific variations.
 Also, the cost of updating an explicit manifest is small compared
 to the overall work that should go into changing API that will need to
-be suppported forever (or until Python 3 reaches end of life, if that
+be supported forever (or until Python 3 reaches end of life, if that
 comes sooner).
 
 This PEP proposes automatically generating things *from* the manifest:
@@ -203,7 +203,7 @@ The format of the manifest will be subject to change whenever needed.
 It should be consumed only by scripts in the CPython repository.
 If a stable list is needed, a script can be added to generate it.
 
-The following wil be generated from the ABI manifest:
+The following will be generated from the ABI manifest:
 
 * Source for the Windows shared library, ``PC/python3dll.c``.
 * Input for documentation (see below).

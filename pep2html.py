@@ -45,6 +45,7 @@ import errno
 import random
 import time
 from io import open
+from pathlib import Path
 try:
     from html import escape
 except ImportError:
@@ -52,8 +53,9 @@ except ImportError:
 
 from docutils import core, nodes, utils
 from docutils.readers import standalone
-from docutils.transforms import peps, references, misc, frontmatter, Transform
+from docutils.transforms import frontmatter, peps, Transform
 from docutils.parsers import rst
+from docutils.parsers.rst import roles
 
 class DataError(Exception):
     pass
@@ -258,7 +260,7 @@ def fixfile(inpath, input_lines, outfile):
                     v = date
         elif k.lower() in ('content-type',):
             url = PEPURL % 9
-            pep_type = v or 'text/plain'
+            pep_type = v or 'text/x-rst'
             v = '<a href="%s">%s</a> ' % (url, escape(pep_type))
         elif k.lower() == 'version':
             if v.startswith('$' 'Revision: ') and v.endswith(' $'):
@@ -320,6 +322,65 @@ def fixfile(inpath, input_lines, outfile):
     print('</html>', file=outfile)
 
 
+EXPLICIT_TITLE_RE = re.compile(r'^(.+?)\s*(?<!\x00)<(.*?)>$', re.DOTALL)
+
+def _pep_reference_role(role, rawtext, text, lineno, inliner,
+                        options={}, content=[]):
+    matched = EXPLICIT_TITLE_RE.match(text)
+    if matched:
+        title = utils.unescape(matched.group(1))
+        target = utils.unescape(matched.group(2))
+    else:
+        target = utils.unescape(text)
+        title = "PEP " + utils.unescape(text)
+    pep_str, _, fragment = target.partition("#")
+    try:
+        pepnum = int(pep_str)
+        if pepnum < 0 or pepnum > 9999:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            'PEP number must be a number from 0 to 9999; "%s" is invalid.'
+            % pep_str, line=lineno)
+        prb = inliner.problematic(rawtext, rawtext, msg)
+        return [prb], [msg]
+    # Base URL mainly used by inliner.pep_reference; so this is correct:
+    ref = (inliner.document.settings.pep_base_url
+           + inliner.document.settings.pep_file_url_template % pepnum)
+    if fragment:
+        ref += "#" + fragment
+    roles.set_classes(options)
+    return [nodes.reference(rawtext, title, refuri=ref, **options)], []
+def _rfc_reference_role(role, rawtext, text, lineno, inliner,
+                        options={}, content=[]):
+    matched = EXPLICIT_TITLE_RE.match(text)
+    if matched:
+        title = utils.unescape(matched.group(1))
+        target = utils.unescape(matched.group(2))
+    else:
+        target = utils.unescape(text)
+        title = "RFC " + utils.unescape(text)
+    pep_str, _, fragment = target.partition("#")
+    try:
+        rfcnum = int(pep_str)
+        if rfcnum < 0 or rfcnum > 9999:
+            raise ValueError
+    except ValueError:
+        msg = inliner.reporter.error(
+            'RFC number must be a number from 0 to 9999; "%s" is invalid.'
+            % pep_str, line=lineno)
+        prb = inliner.problematic(rawtext, rawtext, msg)
+        return [prb], [msg]
+    # Base URL mainly used by inliner.pep_reference; so this is correct:
+    ref = (inliner.document.settings.rfc_base_url + inliner.rfc_url % rfcnum)
+    if fragment:
+        ref += "#" + fragment
+    roles.set_classes(options)
+    return [nodes.reference(rawtext, title, refuri=ref, **options)], []
+
+roles.register_canonical_role("pep-reference", _pep_reference_role)
+roles.register_canonical_role("rfc-reference", _rfc_reference_role)
+
 docutils_settings = None
 """Runtime settings object used by Docutils.  Can be set by the client
 application when this module is imported."""
@@ -433,6 +494,31 @@ class PEPHeaders(Transform):
             elif name == 'version' and len(body):
                 utils.clean_rcs_keywords(para, self.rcs_keyword_substitutions)
 
+
+class PEPFooter(Transform):
+    """Remove the References/Footnotes section if it is empty when rendered."""
+
+    # Set low priority so ref targets aren't removed before they are needed
+    default_priority = 999
+
+    def apply(self):
+        pep_source_path = Path(self.document['source'])
+        if not pep_source_path.match('pep-*'):
+            return  # not a PEP file, exit early
+
+        # Iterate through sections from the end of the document
+        for section in reversed(self.document):
+            if not isinstance(section, nodes.section):
+                continue
+            title_words = {*section[0].astext().lower().split()}
+            if {"references", "footnotes"} & title_words:
+                # Remove references/footnotes sections if there is no displayed
+                # content (i.e. they only have title & link target nodes)
+                if all(isinstance(ref_node, (nodes.title, nodes.target))
+                       for ref_node in section):
+                    section.parent.remove(section)
+
+
 class PEPReader(standalone.Reader):
 
     supported = ('pep',)
@@ -453,7 +539,7 @@ class PEPReader(standalone.Reader):
         transforms.remove(frontmatter.DocTitle)
         transforms.remove(frontmatter.SectionSubTitle)
         transforms.remove(frontmatter.DocInfo)
-        transforms.extend([PEPHeaders, peps.Contents, peps.TargetNotes])
+        transforms.extend([PEPHeaders, peps.Contents, PEPFooter])
         return transforms
 
     settings_default_overrides = {'pep_references': 1, 'rfc_references': 1}
@@ -483,7 +569,7 @@ def fix_rst_pep(inpath, input_lines, outfile):
 
 def get_pep_type(input_lines):
     """
-    Return the Content-Type of the input.  "text/plain" is the default.
+    Return the Content-Type of the input.  "text/x-rst" is the default.
     Return ``None`` if the input is not a PEP.
     """
     pep_type = None
@@ -493,11 +579,11 @@ def get_pep_type(input_lines):
             # End of the RFC 2822 header (first blank line).
             break
         elif line.startswith('content-type: '):
-            pep_type = line.split()[1] or 'text/plain'
+            pep_type = line.split()[1] or 'text/x-rst'
             break
         elif line.startswith('pep: '):
             # Default PEP type, used if no explicit content-type specified:
-            pep_type = 'text/plain'
+            pep_type = 'text/x-rst'
     return pep_type
 
 
@@ -538,7 +624,7 @@ def make_html(inpath, verbose=0):
                               % (inpath, pep_type)), file=sys.stderr)
         sys.stdout.flush()
         return None
-    elif PEP_TYPE_DISPATCH[pep_type] == None:
+    elif PEP_TYPE_DISPATCH[pep_type] is None:
         pep_type_error(inpath, pep_type)
         return None
     outpath = os.path.splitext(inpath)[0] + ".html"

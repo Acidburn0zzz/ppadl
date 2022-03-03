@@ -52,8 +52,12 @@ package: all rss
 	tar -C build -czf build/peps.tar.gz peps
 
 lint:
-	pre-commit --version > /dev/null || python3 -m pip install pre-commit
+	pre-commit --version > /dev/null || $(PYTHON) -m pip install pre-commit
 	pre-commit run --all-files
+
+spellcheck:
+	pre-commit --version > /dev/null || $(PYTHON) -m pip install pre-commit
+	pre-commit run --all-files --hook-stage manual codespell
 
 # New Sphinx targets:
 
@@ -62,17 +66,13 @@ SPHINX_BUILD=$(PYTHON) build.py -j $(SPHINX_JOBS)
 
 # TODO replace `rss:` with this when merged & tested
 pep_rss:
-	$(PYTHON) pep_rss_gen.py
+	$(PYTHON) generate_rss.py
 
 pages: pep_rss
-	$(SPHINX_BUILD) --index-file
+	$(SPHINX_BUILD) --build-dirs
 
 sphinx:
 	$(SPHINX_BUILD)
-
-# for building Sphinx without a web-server
-sphinx-local:
-	$(SPHINX_BUILD) --build-files
 
 fail-warning:
 	$(SPHINX_BUILD) --fail-on-warning

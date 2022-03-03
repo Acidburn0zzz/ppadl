@@ -4,7 +4,7 @@ Version: $Revision$
 Last-Modified: $Date$
 Author: Richard Jones <richard@python.org>
 BDFL-Delegate:  Nick Coghlan <ncoghlan@gmail.com>
-Discussions-To: <distutils-sig@python.org>
+Discussions-To: distutils-sig@python.org
 Status: Rejected
 Type: Standards Track
 Content-Type: text/x-rst
@@ -17,7 +17,7 @@ Resolution: https://mail.python.org/pipermail/distutils-sig/2013-August/022527.h
 Abstract
 ========
 
-This PEP proposes the inclusion of a pip boostrap executable in the
+This PEP proposes the inclusion of a pip bootstrap executable in the
 Python installation to simplify the use of 3rd-party modules by Python
 users.
 
@@ -32,7 +32,7 @@ PEP Rejection
 
 This PEP has been rejected in favour of a more explicit mechanism that
 should achieve the same end result in a more reliable fashion. The more
-explicit bootstrapping mechanism is described in PEP 453.
+explicit bootstrapping mechanism is described in :pep:`453`.
 
 Rationale
 =========
@@ -82,7 +82,7 @@ require the user to install pip.
 The pip bootstrap
 -----------------
 
-The Python installation includes an executable called "pip3" (see PEP 394 for
+The Python installation includes an executable called "pip3" (see :pep:`394` for
 naming rationale etc.) that attempts to import pip machinery.  If it can then
 the pip command proceeds as normal.  If it cannot it will bootstrap pip by
 downloading the pip implementation and setuptools wheel files. Hereafter the
@@ -91,16 +91,16 @@ and virtualenv.  Once installed, the pip command proceeds as normal. Once the
 bootstrap process is complete the "pip3" command is no longer the bootstrap
 but rather the full pip command.
 
-A boostrap is used in the place of a the full pip code so that we don't have
+A bootstrap is used in the place of a the full pip code so that we don't have
 to bundle pip and also pip is upgradeable outside of the regular Python
 upgrade timeframe and processes.
 
 To avoid issues with sudo we will have the bootstrap default to
 installing the pip implementation to the per-user site-packages
-directory defined in PEP 370 and implemented in Python 2.6/3.0.  Since
+directory defined in :pep:`370` and implemented in Python 2.6/3.0.  Since
 we avoid installing to the system Python we also avoid conflicting
 with any other packaging system (on Linux systems, for example.) If
-the user is inside a virtual environment [1]_ then the pip
+the user is inside a :pep:`405` virtual environment then the pip
 implementation will be installed into that virtual environment.
 
 The bootstrap process will proceed as follows:
@@ -110,7 +110,7 @@ The bootstrap process will proceed as follows:
    called "pip3".
 2. The user will invoke a pip command, typically "pip3 install
    <package>", for example "pip3 install Django".
-3. The boostrap script will attempt to import the pip implementation.
+3. The bootstrap script will attempt to import the pip implementation.
    If this succeeds, the pip command is processed normally. Stop.
 4. On failing to import the pip implementation the bootstrap notifies
    the user that it needs to "install pip". It will ask the user whether it
@@ -118,7 +118,7 @@ The bootstrap process will proceed as follows:
    package. This choice will also be present as a command-line option to pip
    so non-interactive use is possible.
 5. The bootstrap will and contact PyPI to obtain the latest download wheel
-   file (see PEP 427.)
+   file (see :pep:`427`.)
 6. Upon downloading the file it is installed using "python setup.py install".
 7. The pip tool may now import the pip implementation and continues to
    process the requested user command normally.
@@ -140,11 +140,11 @@ CA certificate check performed. This facility will be present in Python 3.4+
 using Operating System certificates (see PEP XXXX).
 
 Beyond those arguments controlling index location and download
-options, the "pip3" boostrap command may support further standard pip
+options, the "pip3" bootstrap command may support further standard pip
 options for verbosity, quietness and logging.
 
 The "pip3" command will support two new command-line options that are used
-in the boostrapping, and otherwise ignored. They control where the pip
+in the bootstrapping, and otherwise ignored. They control where the pip
 implementation is installed:
 
 ``--bootstrap``
@@ -222,9 +222,6 @@ now much reduced.
 
 References
 ==========
-
-.. [1] PEP 405, Python Virtual Environments
-       http://www.python.org/dev/peps/pep-0405/
 
 .. [2] pip issue tracking work needed for this PEP
        https://github.com/pypa/pip/issues/863

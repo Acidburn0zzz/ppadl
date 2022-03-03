@@ -110,7 +110,7 @@ Re-supporting platforms
 -----------------------
 
 If a user of a platform wants to see this platform supported
-again, he may volunteer to maintain the platform support.  Such an
+again, they may volunteer to maintain the platform support.  Such an
 offer must be recorded in the PEP, and the user can submit patches
 to remove the build-time errors, and perform any other maintenance
 work for the platform.
@@ -218,13 +218,13 @@ No-longer-supported platforms
 
 * | Name:             AtheOS
   | Unsupported in:   Python 2.6 (with "AtheOS" changed to "Syllable")
-  | Build broken in:  Python 2.7 (edit configure to reenable)
+  | Build broken in:  Python 2.7 (edit configure to re-enable)
   | Code removed in:  Python 3.0
   | Details:          http://www.syllable.org/discussion.php?id=2320
 
 * | Name:             BeOS
   | Unsupported in:   Python 2.6 (warning in configure)
-  | Build broken in:  Python 2.7 (edit configure to reenable)
+  | Build broken in:  Python 2.7 (edit configure to re-enable)
   | Code removed in:  Python 3.0
 
 * | Name:             Systems using Mach C Threads
@@ -287,7 +287,8 @@ Copyright
 This document has been placed in the public domain.
 
 
-..
+
+..
    Local Variables:
    mode: indented-text
    indent-tabs-mode: nil

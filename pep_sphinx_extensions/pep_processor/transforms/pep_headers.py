@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pathlib import Path
 import re
 
@@ -7,8 +5,8 @@ from docutils import nodes
 from docutils import transforms
 from sphinx import errors
 
-from pep_sphinx_extensions import config
 from pep_sphinx_extensions.pep_processor.transforms import pep_zero
+from pep_sphinx_extensions.pep_processor.transforms.pep_zero import _mask_email
 
 
 class PEPParsingError(errors.SphinxError):
@@ -41,12 +39,12 @@ class PEPHeaders(transforms.Transform):
         # Extract PEP number
         value = pep_field[1].astext()
         try:
-            pep = int(value)
+            pep_num = int(value)
         except ValueError:
             raise PEPParsingError(f"'PEP' header must contain an integer. '{value}' is invalid!")
 
         # Special processing for PEP 0.
-        if pep == 0:
+        if pep_num == 0:
             pending = nodes.pending(pep_zero.PEPZero)
             self.document.insert(1, pending)
             self.document.note_pending(pending)
@@ -70,18 +68,26 @@ class PEPHeaders(transforms.Transform):
                 raise PEPParsingError(msg)
 
             para = body[0]
-            if name in {"author", "bdfl-delegate", "pep-delegate", "discussions-to", "sponsor"}:
+            if name in {"author", "bdfl-delegate", "pep-delegate", "sponsor"}:
                 # mask emails
                 for node in para:
-                    if isinstance(node, nodes.reference):
-                        pep_num = pep if name == "discussions-to" else None
-                        node.replace_self(_mask_email(node, pep_num))
+                    if not isinstance(node, nodes.reference):
+                        continue
+                    node.replace_self(_mask_email(node))
+            elif name in {"discussions-to", "resolution"}:
+                # only handle threads, email addresses in Discussions-To aren't
+                # masked.
+                for node in para:
+                    if not isinstance(node, nodes.reference):
+                        continue
+                    if node["refuri"].startswith("https://mail.python.org"):
+                        node[0] = _pretty_thread(node[0])
             elif name in {"replaces", "superseded-by", "requires"}:
                 # replace PEP numbers with normalised list of links to PEPs
                 new_body = []
-                for ref_pep in re.split(r",?\s+", body.astext()):
-                    new_body += [nodes.reference("", ref_pep, refuri=config.pep_url.format(int(ref_pep)))]
-                    new_body += [nodes.Text(", ")]
+                for pep_str in re.split(r",?\s+", body.astext()):
+                    target = self.document.settings.pep_url.format(int(pep_str))
+                    new_body += [nodes.reference("", pep_str, refuri=target), nodes.Text(", ")]
                 para[:] = new_body[:-1]  # drop trailing space
             elif name in {"last-modified", "content-type", "version"}:
                 # Mark unneeded fields
@@ -92,23 +98,20 @@ class PEPHeaders(transforms.Transform):
             field.parent.remove(field)
 
 
-def _mask_email(ref: nodes.reference, pep_num: int | None = None) -> nodes.reference:
-    """Mask the email address in `ref` and return a replacement node.
+def _pretty_thread(text: nodes.Text) -> nodes.Text:
+    parts = text.title().replace("Sig", "SIG").split("/")
 
-    `ref` is returned unchanged if it contains no email address.
+    # mailman structure is
+    # https://mail.python.org/archives/list/<list name>/thread/<id>
+    try:
+        return nodes.Text(parts[parts.index("Archives") + 2].removesuffix("@Python.Org"))
+    except ValueError:
+        pass
 
-    If given an email not explicitly whitelisted, process it such that
-    `user@host` -> `user at host`.
-
-    If given a PEP number `pep_num`, add a default email subject.
-
-    """
-    if "refuri" not in ref or not ref["refuri"].startswith("mailto:"):
-        return ref
-    non_masked_addresses = {"peps@python.org", "python-list@python.org", "python-dev@python.org"}
-    if ref["refuri"].removeprefix("mailto:").strip() not in non_masked_addresses:
-        ref[0] = nodes.raw("", ref[0].replace("@", "&#32;&#97;t&#32;"), format="html")
-    if pep_num is None:
-        return ref[0]  # return email text without mailto link
-    ref["refuri"] += f"?subject=PEP%20{pep_num}"
-    return ref
+    # pipermail structure is
+    # https://mail.python.org/pipermail/<list name>/<month-year>/<id>
+    try:
+        return nodes.Text(parts[parts.index("Pipermail") + 1])
+    except ValueError:
+        # archives and pipermail not in list, e.g. PEP 245
+        return text
